@@ -9,7 +9,7 @@ export const buildTheme = (mode: PaletteMode) => {
     ...getDesignTokens(mode),
     typography,
     spacing: 8,
-    shadows: customShadows,
+    shadows: customShadows as any,
     components: {
       MuiCssBaseline: {
         styleOverrides: {

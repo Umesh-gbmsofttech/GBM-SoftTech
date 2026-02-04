@@ -6,7 +6,7 @@ import { PageTransition, pageVariants } from "@components/animations/PageTransit
 import { StatRow, StatCard, StatValue } from "@components/ui/Tags";
 import { EmojiObjectsOutlined, VisibilityOutlined, StarsOutlined, ThumbUpOutlined } from "@mui/icons-material";
 
-const StoryCard = styled(HoverCard)(({ theme }) => ({
+const StoryCard = styled(HoverCard)(() => ({
   gridColumn: "1 / -1"
 }));
 

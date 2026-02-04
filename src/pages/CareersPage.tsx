@@ -7,9 +7,8 @@ import { PageTransition, pageVariants } from "@components/animations/PageTransit
 const Hero = styled(Box)(({ theme }) => ({
   padding: theme.spacing(8, 0),
   textAlign: "center",
-  background: `linear-gradient(120deg, ${theme.palette.primary.main}33, ${
-    theme.palette.secondary.main
-  }33)`,
+  background: `linear-gradient(120deg, ${theme.palette.primary.main}33, ${theme.palette.secondary.main
+    }33)`,
   borderRadius: theme.shape.borderRadius,
   marginBottom: theme.spacing(6)
 }));
@@ -45,7 +44,7 @@ const BenefitGrid = styled(Box)(({ theme }) => ({
   gap: theme.spacing(3)
 }));
 
-const ApplyCard = styled(HoverCard)(({ theme }) => ({
+const ApplyCard = styled(HoverCard)(() => ({
   maxWidth: 420,
   margin: "0 auto",
   textAlign: "center"
@@ -75,10 +74,10 @@ export const CareersPage = () => {
           <JobList>
             {["Senior Software Engineer", "UX/UI Designer", "Data Scientist"].map((role) => (
               <JobCard key={role}>
-                <Box>
+                <>
                   <Typography variant="subtitle1">{role}</Typography>
-                  <MutedText variant="body2">Full-time · Pune</MutedText>
-                </Box>
+                  <MutedText variant="body2">Full-time ï¿½ Pune</MutedText>
+                </>
                 <Button variant="contained">Apply Now</Button>
               </JobCard>
             ))}

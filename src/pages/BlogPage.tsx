@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Typography, TextField, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Section, Container } from "@components/ui/Section";
@@ -68,10 +69,10 @@ export const BlogPage = () => {
                   "Startup Funding Strategies",
                   "Mobile App UX Design"
                 ].map((post) => (
-                  <Box key={post}>
+                  <React.Fragment key={post}>
                     <Typography variant="body2">{post}</Typography>
                     <MutedText variant="caption">June 12, 2024</MutedText>
-                  </Box>
+                  </React.Fragment>
                 ))}
               </SidebarCard>
               <SidebarCard>

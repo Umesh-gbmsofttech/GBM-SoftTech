@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Typography, TextField, Button, MenuItem } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Section, Container, SectionHeader, TwoColumn } from "@components/ui/Section";
@@ -124,10 +125,10 @@ export const ContactPage = () => {
                   a: "React, Angular, Node.js, Python, Flutter, and modern cloud platforms."
                 }
               ].map((item) => (
-                <Box key={item.q}>
+                <React.Fragment key={item.q}>
                   <Typography variant="subtitle2">{item.q}</Typography>
                   <MutedText variant="body2">{item.a}</MutedText>
-                </Box>
+                </React.Fragment>
               ))}
             </FAQList>
           </HoverCard>

@@ -16,7 +16,7 @@ const GlassBar = styled(AppBar)(({ theme }) => ({
 }));
 
 const NavLink = styled(Button, {
-  shouldForwardProp: (prop) => prop !== "active"
+  shouldForwardProp: (prop) => prop !== "active" && prop !== "component"
 })<{ active?: boolean }>(({ theme, active }) => ({
   color: active ? theme.palette.primary.main : theme.palette.text.secondary,
   fontWeight: 600,
@@ -24,7 +24,7 @@ const NavLink = styled(Button, {
   padding: theme.spacing(1, 2)
 }));
 
-const LogoWrap = styled(Link)(({ theme }) => ({
+const LogoWrap = styled(Link)(() => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -53,38 +53,39 @@ export const Navbar = () => {
   const location = useLocation();
 
   return (
-    <GlassBar
-      position="sticky"
-      color="default"
-      elevation={0}
-      component={motion.div}
+    <motion.div
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4 }}
     >
-      <Toolbar>
-        <LogoWrap to="/">
-          <LogoImage src={logo} alt="GBM SoftTech" />
-          <Typography variant="h6" color="text.primary">
-            SoftTech
-          </Typography>
-        </LogoWrap>
-        <NavActions>
-          {routeConfig.map((route) => (
-            <NavLink
-              key={route.path}
-              component={Link}
-              to={route.path}
-              active={location.pathname === route.path}
-            >
-              {route.name}
-            </NavLink>
-          ))}
-          <IconButton onClick={() => dispatch(toggleMode())} color="inherit">
-            {mode === "light" ? <DarkModeOutlined /> : <LightModeOutlined />}
-          </IconButton>
-        </NavActions>
-      </Toolbar>
-    </GlassBar>
+      <GlassBar
+        position="sticky"
+        color="default"
+        elevation={0}
+      >
+        <Toolbar>
+          <LogoWrap to="/">
+            <LogoImage src={logo} alt="GBM SoftTech" />
+            <Typography variant="h6" color="text.primary">
+              SoftTech
+            </Typography>
+          </LogoWrap>
+          <NavActions>
+            {routeConfig.map((route) => (
+              <NavLink
+                key={route.path}
+                href={route.path}
+                active={location.pathname === route.path}
+              >
+                {route.name}
+              </NavLink>
+            ))}
+            <IconButton onClick={() => dispatch(toggleMode())} color="inherit">
+              {mode === "light" ? <DarkModeOutlined /> : <LightModeOutlined />}
+            </IconButton>
+          </NavActions>
+        </Toolbar>
+      </GlassBar>
+    </motion.div>
   );
 };

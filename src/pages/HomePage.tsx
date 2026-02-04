@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Typography, Button, Avatar, Stack } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import { Section, Container, CardGrid, SectionHeader } from "@components/ui/Section";
@@ -244,15 +245,15 @@ export const HomePage = () => {
             {["Ankit", "Sara", "Dev"].map((name) => (
               <TestimonialCard key={name}>
                 <Typography variant="body1">
-                  “GBM SoftTech delivered on every promise. The product quality and delivery speed
-                  exceeded expectations.”
+                  ï¿½GBM SoftTech delivered on every promise. The product quality and delivery speed
+                  exceeded expectations.ï¿½
                 </Typography>
                 <Stack direction="row" spacing={2} alignItems="center">
                   <Avatar>{name[0]}</Avatar>
-                  <Box>
+                  <React.Fragment key={name}>
                     <Typography variant="subtitle2">{name}</Typography>
                     <MutedText variant="caption">CTO, Fintech</MutedText>
-                  </Box>
+                  </React.Fragment>
                 </Stack>
               </TestimonialCard>
             ))}
@@ -264,7 +265,7 @@ export const HomePage = () => {
         <Container>
           <CTASection>
             <Typography variant="h4">Ready to Start Your Project?</Typography>
-            <SpacedText variant="body2">Let’s build something remarkable together.</SpacedText>
+            <SpacedText variant="body2">Letï¿½s build something remarkable together.</SpacedText>
             <CTAButton variant="contained">Contact Us Today</CTAButton>
           </CTASection>
         </Container>

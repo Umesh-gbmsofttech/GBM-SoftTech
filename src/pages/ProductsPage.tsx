@@ -36,7 +36,7 @@ const TagRow = styled(Box)(({ theme }) => ({
   gap: theme.spacing(1)
 }));
 
-const PriceCard = styled(HoverCard)(({ theme }) => ({
+const PriceCard = styled(HoverCard)(() => ({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center"
@@ -80,7 +80,7 @@ export const ProductsPage = () => {
                   "Hands-on projects",
                   "Career guidance"
                 ].map((item) => (
-                  <FeatureItem key={item}>• {item}</FeatureItem>
+                  <FeatureItem key={item}>ï¿½ {item}</FeatureItem>
                 ))}
               </FeatureList>
               <Typography variant="subtitle1">Training Programs</Typography>
@@ -138,13 +138,13 @@ export const ProductsPage = () => {
                   "Service history",
                   "Emergency assistance"
                 ].map((item) => (
-                  <FeatureItem key={item}>• {item}</FeatureItem>
+                  <FeatureItem key={item}>ï¿½ {item}</FeatureItem>
                 ))}
               </FeatureList>
               <Typography variant="subtitle1">How it Works</Typography>
               <FeatureList>
                 {["Request service", "Find nearby mechanics", "Get service & pay"].map((item) => (
-                  <FeatureItem key={item}>• {item}</FeatureItem>
+                  <FeatureItem key={item}>ï¿½ {item}</FeatureItem>
                 ))}
               </FeatureList>
               <Typography variant="subtitle1">User Benefits</Typography>

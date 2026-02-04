@@ -88,7 +88,7 @@ export const PortfolioPage = () => {
           </SectionHeader>
           <CaseStudy>
             <PortfolioImage />
-            <Box>
+            <div>
               <Typography variant="h6">Enterprise SaaS Platform</Typography>
               <MutedText variant="body2">
                 Delivered a SaaS solution that increased productivity by 45% and reduced operational
@@ -101,11 +101,11 @@ export const PortfolioPage = () => {
                   "Seamless third-party integrations"
                 ].map((item) => (
                   <Typography key={item} variant="body2" color="text.secondary">
-                    • {item}
+                    ï¿½ {item}
                   </Typography>
                 ))}
               </CaseStudyList>
-            </Box>
+            </div>
           </CaseStudy>
         </Container>
       </Section>

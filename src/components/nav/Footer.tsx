@@ -28,13 +28,13 @@ export const Footer = () => {
     <FooterWrap>
       <Container>
         <FooterGrid>
-          <Box>
+          <Box component="div">
             <Typography variant="h6">GBM SoftTech</Typography>
             <Typography variant="body2" color="text.secondary">
               Building products, platforms, and digital experiences that help teams move faster.
             </Typography>
           </Box>
-          <Box>
+          <Box component="div">
             <Typography variant="subtitle1">Office</Typography>
             <Typography variant="body2" color="text.secondary">
               Pune, India
@@ -46,7 +46,7 @@ export const Footer = () => {
               +91 87660 78570
             </Typography>
           </Box>
-          <Box>
+          <Box component="div">
             <Typography variant="subtitle1">Working Hours</Typography>
             <Typography variant="body2" color="text.secondary">
               Monday - Saturday
