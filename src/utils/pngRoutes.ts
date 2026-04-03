@@ -11,8 +11,6 @@ export const pngPages: PngPage[] = [
   { file: "Services page.png", path: "/services", name: "Services" },
   { file: "Products page 1.png", path: "/products", name: "Products" },
   { file: "Products page 2.png", path: "/products", name: "Products" },
-  { file: "Portfolio page.png", path: "/portfolio", name: "Portfolio" },
-  { file: "blog page.png", path: "/blog", name: "Blog" },
   { file: "Join Our team page.png", path: "/careers", name: "Careers" },
   { file: "Contact Us page.png", path: "/contact", name: "Contact" }
 ];

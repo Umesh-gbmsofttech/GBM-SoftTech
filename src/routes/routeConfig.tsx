@@ -1,3 +1,4 @@
+import React from "react";
 import { HomePage } from "@pages/HomePage";
 import { AboutPage } from "@pages/AboutPage";
 import { ServicesPage } from "@pages/ServicesPage";
@@ -11,10 +12,11 @@ import { getUniqueRoutes } from "@utils/pngRoutes";
 export interface RouteItem {
   name: string;
   path: string;
-  component: () => JSX.Element;
+  component: React.ComponentType;
 }
 
-const componentMap: Record<string, () => JSX.Element> = {
+// Map names to actual Component references
+const componentMap: Record<string, React.ComponentType> = {
   Home: HomePage,
   About: AboutPage,
   Services: ServicesPage,
