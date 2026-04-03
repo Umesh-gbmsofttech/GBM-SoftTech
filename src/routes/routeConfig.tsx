@@ -1,10 +1,8 @@
 import { HomePage } from "@pages/HomePage";
 import { AboutPage } from "@pages/AboutPage";
 import { ServicesPage } from "@pages/ServicesPage";
-import { PortfolioPage } from "@pages/PortfolioPage";
 import { ProductsPage } from "@pages/ProductsPage";
 import { ContactPage } from "@pages/ContactPage";
-import { BlogPage } from "@pages/BlogPage";
 import { CareersPage } from "@pages/CareersPage";
 import { getUniqueRoutes } from "@utils/pngRoutes";
 
@@ -19,8 +17,6 @@ const componentMap: Record<string, () => JSX.Element> = {
   About: AboutPage,
   Services: ServicesPage,
   Products: ProductsPage,
-  Portfolio: PortfolioPage,
-  Blog: BlogPage,
   Careers: CareersPage,
   Contact: ContactPage
 };
