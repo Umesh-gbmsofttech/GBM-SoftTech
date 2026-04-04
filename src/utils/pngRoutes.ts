@@ -9,13 +9,8 @@ export const pngPages: PngPage[] = [
   { file: "Home Page 2.png", path: "/", name: "Home" },
   { file: "About page.png", path: "/about", name: "About" },
   { file: "Services page.png", path: "/services", name: "Services" },
-<<<<<<< HEAD
-  { file: "Products page 1.png", path: "/products", name: "Products" },
-  { file: "Products page 2.png", path: "/products", name: "Products" },
-=======
  // { file: "Products page 1.png", path: "/products", name: "Products" },
   //{ file: "Products page 2.png", path: "/products", name: "Products" },
->>>>>>> shriram
   { file: "Join Our team page.png", path: "/careers", name: "Careers" },
   { file: "Contact Us page.png", path: "/contact", name: "Contact" }
 ];
