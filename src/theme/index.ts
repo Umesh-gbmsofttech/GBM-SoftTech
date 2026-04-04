@@ -1,43 +1,68 @@
-import { createTheme, responsiveFontSizes } from "@mui/material/styles";
+import { createTheme, responsiveFontSizes, alpha } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
-import { getDesignTokens } from "./tokens";
-import { typography } from "./typography";
-import { customShadows } from "./shadows";
 
 export const buildTheme = (mode: PaletteMode) => {
   let theme = createTheme({
-    ...getDesignTokens(mode),
-    typography,
-    spacing: 8,
-    shadows: customShadows as any,
+    palette: {
+      mode: 'light', // Force light for a bright theme
+      primary: {
+        main: "#00A3E0", // GBM Blue
+        contrastText: "#ffffff",
+      },
+      secondary: {
+        main: "#FF3B30", // GBM Red
+      },
+      background: {
+        default: "#FFFFFF",
+        paper: "#F8F9FA",
+      },
+      text: {
+        primary: "#1A1A1A",
+        secondary: "#5F6368",
+      },
+      divider: "rgba(0, 0, 0, 0.08)",
+    },
+    typography: {
+      fontFamily: "'Inter', sans-serif",
+      h3: { fontWeight: 800, color: "#1A1A1A" },
+      h4: { fontWeight: 700, color: "#1A1A1A" },
+    },
+    shape: {
+      borderRadius: 12,
+    },
     components: {
       MuiCssBaseline: {
         styleOverrides: {
           body: {
-            backgroundImage:
-              mode === "light"
-                ? "radial-gradient(circle at top, rgba(27, 77, 255, 0.08), transparent 45%), radial-gradient(circle at 20% 20%, rgba(90, 210, 255, 0.12), transparent 35%)"
-                : "radial-gradient(circle at top, rgba(90, 210, 255, 0.08), transparent 45%), radial-gradient(circle at 20% 20%, rgba(27, 77, 255, 0.15), transparent 35%)",
-            backgroundAttachment: "fixed"
-          }
-        }
+            backgroundColor: "#FFFFFF",
+            // Subtle professional glow instead of dark gradients
+            backgroundImage: "radial-gradient(at 50% 0%, rgba(0, 163, 224, 0.05) 0%, transparent 50%)",
+            backgroundAttachment: "fixed",
+            color: "#1A1A1A",
+            margin: 0,
+            padding: 0,
+          },
+        },
       },
       MuiButton: {
         defaultProps: { disableElevation: true },
         styleOverrides: {
           root: {
-            borderRadius: 999
-          }
-        }
+            borderRadius: 99, // Pill shape as per your design
+            textTransform: "none",
+            fontWeight: 700,
+          },
+        },
       },
       MuiPaper: {
         styleOverrides: {
           root: {
-            backgroundImage: "none"
-          }
-        }
-      }
-    }
+            backgroundImage: "none",
+            boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.04)",
+          },
+        },
+      },
+    },
   });
 
   theme = responsiveFontSizes(theme);

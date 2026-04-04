@@ -8,6 +8,7 @@ export const Section = styled(Box)(({ theme }) => ({
   }
 }));
 
+
 export const SectionHeader = styled(Box)(({ theme }) => ({
   textAlign: "center",
   marginBottom: theme.spacing(6)

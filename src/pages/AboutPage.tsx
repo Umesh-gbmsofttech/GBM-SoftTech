@@ -6,7 +6,11 @@ import {
   Vision,
   Process,
   Products
+<<<<<<< HEAD
 } from "../components/sections/about";
+=======
+} from "../sections/about";
+>>>>>>> shriram
 
 export const AboutPage: React.FC = () => {
   return (
