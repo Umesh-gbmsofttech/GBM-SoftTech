@@ -92,13 +92,8 @@ export const Footer: React.FC = () => {
                  alt="GBM Logo" 
                  style={{ height: 35, filter: 'brightness(0) invert(1)' }} 
                />
-<<<<<<< HEAD
-               <Typography variant="h5" sx={{ fontWeight: 900, letterSpacing: -1 }}>
-                 GBM <Box component="span" sx={{ fontWeight: 300, color: alpha("#fff", 0.5) }}>SOFTTECH</Box>
-=======
                <Typography variant="h5" sx={{ fontWeight: 1000, letterSpacing: -1 }}>
                   <Box component="span" sx={{ fontWeight: 1000, color: alpha("#fff", 0.5) }}>SOFTTECH</Box>
->>>>>>> shriram
                </Typography>
             </Box>
             <Typography variant="body2" sx={{ mb: 4, color: alpha("#fff", 0.5), lineHeight: 2, maxWidth: 320 }}>
@@ -115,51 +110,6 @@ export const Footer: React.FC = () => {
 
           {/* Column 2: Global Reach */}
           <Grid item xs={12} sm={6} md={2.5}>
-<<<<<<< HEAD
-            <Typography variant="overline" sx={{ fontWeight: 900, mb: 4, display: 'block', color: 'primary.main', letterSpacing: 3 }}>
-              GLOBAL REACH
-            </Typography>
-            <Stack spacing={2.5}>
-              {[
-                { city: "United States", region: "Headquarters" },
-                { city: "Hyderabad", region: "Innovation Hub" },
-                { city: "Pune", region: "Engineering Center" }
-              ].map((loc, i) => (
-                <Box key={i}>
-                  <Typography variant="body2" sx={{ fontWeight: 700, color: "#fff", display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    <LocationOnOutlined sx={{ fontSize: '1.1rem', color: alpha("#fff", 0.2) }} /> {loc.city}
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: alpha("#fff", 0.3), ml: 4 }}>
-                    {loc.region}
-                  </Typography>
-                </Box>
-              ))}
-            </Stack>
-          </Grid>
-
-          {/* Column 3: Navigation */}
-          <Grid item xs={12} sm={6} md={2}>
-            <Typography variant="overline" sx={{ fontWeight: 900, mb: 4, display: 'block', color: 'primary.main', letterSpacing: 3 }}>
-              EXPLORE
-            </Typography>
-            <Stack spacing={2}>
-              <FooterLink to="/about">About Agency</FooterLink>
-              <FooterLink to="/services">Capabilities</FooterLink>
-              <FooterLink to="/portfolio">Work Archive</FooterLink>
-              <FooterLink to="/careers">Join the Team</FooterLink>
-              <FooterLink to="/contact">Get in Touch</FooterLink>
-            </Stack>
-          </Grid>
-
-          {/* Column 4: Newsletter */}
-          <Grid item xs={12} md={3.5}>
-            <Typography variant="h6" sx={{ fontWeight: 900, mb: 2, letterSpacing: -0.5 }}>
-              Insights for Innovators
-            </Typography>
-            <Typography variant="body2" sx={{ mb: 3, color: alpha("#fff", 0.4), lineHeight: 1.6 }}>
-              Weekly deep-dives into React architecture and enterprise scaling strategies.
-            </Typography>
-=======
             
             <Stack spacing={2.5}>
               {[
@@ -199,7 +149,6 @@ export const Footer: React.FC = () => {
             <Typography variant="body2" sx={{ mb: 3, color: alpha("#fff", 0.4), lineHeight: 1.6 }}>
               Weekly deep-dives into React architecture and enterprise scaling strategies.
             </Typography>
->>>>>>> shriram
             <Stack direction="row" spacing={1}>
               <NewsletterField 
                 fullWidth 
