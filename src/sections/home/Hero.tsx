@@ -1,132 +1,146 @@
 import React from "react";
-import { Box, Typography, Button, Stack, alpha, Container } from "@mui/material";
-import { styled, keyframes } from "@mui/material/styles";
+import { Box, Typography, Button, Stack, alpha, useTheme } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { motion } from "framer-motion"; 
-
-// 1. FIX THE ERROR: Ensure this import path is correct for your project
-// If your image is named differently, change "download.jpg" to your actual filename
+import { Container } from "@components/ui/Section";
 import heroBg from "../../assets/download.jpg"; 
-
-// --- ANIMATIONS ---
-const fadeIn = keyframes`
-  from { opacity: 0; transform: translateY(25px); }
-  to { opacity: 1; transform: translateY(0); }
-`;
 
 // --- STYLED COMPONENTS ---
 
-const HeroWrap = styled(Box)({
+const HeroWrap = styled(Box)(({ theme }) => ({
+  // ✅ SERVICES THEME: Full-width breakout logic
+  width: "100vw",
   position: "relative",
-  height: "92vh",
-  minHeight: "750px",
-  width: "100%",
+  left: "50%",
+  right: "50%",
+  marginLeft: "-50vw",
+  marginRight: "-50vw", 
+  
+  // ✅ SERVICES THEME: Balanced padding for the curve
+  paddingTop: theme.spacing(25),
+  paddingBottom: theme.spacing(30),
+  
   display: "flex",
   alignItems: "center",
   overflow: "hidden",
-  backgroundColor: "#001e29",
+  
+  // ✅ SERVICES THEME: High-intensity brand gradient overlay
+  background: `linear-gradient(150deg, ${alpha(theme.palette.primary.main, 0.94)} 0%, ${alpha(theme.palette.secondary.main, 0.88)} 100%), 
+               url(${heroBg})`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundAttachment: 'fixed', 
+  
+  textAlign: "center",
   color: "#fff",
-});
 
-const BackgroundImage = styled(Box)({
-  position: "absolute",
-  right: 0,
-  top: 0,
-  width: "60%",
-  height: "100%",
-  zIndex: 1,
-  "&::before": {
-    content: '""',
-    position: "absolute",
-    inset: 0,
-    background: "linear-gradient(to right, #001e29 5%, rgba(0, 30, 41, 0.7) 40%, transparent 100%)",
-    zIndex: 2,
-  },
-  "& img": {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    objectPosition: "center right",
-  }
-});
+  // ✅ SERVICES THEME: The Concave Inner Curve Effect
+  clipPath: "ellipse(150% 100% at 50% 0%)",
+}));
 
-const PillButton = styled(Button)(({ variant }) => ({
-  borderRadius: "50px",
-  padding: "14px 38px",
-  fontWeight: 700,
+const ActionButton = styled(Button)(({ theme, variant }) => ({
+  borderRadius: "99px", // Pill shape from Services
+  padding: "16px 42px",
+  fontWeight: 900,
   textTransform: "none",
-  fontSize: "1.05rem",
-  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+  fontSize: "1.1rem",
+  transition: "all 0.3s ease",
+  
   ...(variant === "contained" && {
-    backgroundColor: " theme.palette.primary.main",
-    color: "#fff",
-    "&:hover": {
-      backgroundColor: "theme.palette.primary.main",
-      boxShadow: "0px 10px 25px rgba(176, 222, 50, 0.35)",
-    },
-  }),
-  ...(variant === "outlined" && {
-    backgroundColor: "#fff",
-    color: "#001e29",
-    border: "none",
+    backgroundColor: "#fff", // Services style: White background
+    color: "#001e29",       // Services style: Dark blue text
     "&:hover": {
       backgroundColor: alpha("#fff", 0.9),
+      transform: "translateY(-3px)",
+    },
+  }),
+  
+  ...(variant === "outlined" && {
+    borderColor: "#fff",
+    color: "#fff",
+    borderWidth: "2px",
+    "&:hover": {
+      borderWidth: "2px",
+      borderColor: "#fff",
+      backgroundColor: alpha("#fff", 0.1),
+      transform: "translateY(-3px)",
     },
   }),
 }));
 
-// 2. RESOLVE WARNING: Use motion.create if your version of Framer Motion requires it
-const MotionDiv = motion.create ? motion.create("div") : motion.div;
+// Safe Framer Motion integration
+const MotionStack = motion.create ? motion.create(Stack) : motion(Stack);
 
 export const Hero = () => {
+  const theme = useTheme();
+
   return (
-    <HeroWrap>
-      <BackgroundImage>
-        {/* This is where heroBg is used */}
-        <img src={heroBg} alt="Corporate Innovation" />
-      </BackgroundImage>
-
-      <Container sx={{ position: "relative", zIndex: 10 }}>
-        <Box sx={{ maxWidth: { xs: "100%", md: "700px" } }}>
-          
-          <Typography 
-            variant="h1" 
-            sx={{ 
-              fontSize: { xs: '2.8rem', md: '4.2rem' }, 
-              fontWeight: 800, 
-              lineHeight: 1.1,
-              mb: 3,
-              animation: `${fadeIn} 0.8s ease-out forwards`
-            }}
+    <Box sx={{ overflow: 'hidden', width: '100%' }}>
+      <HeroWrap component="section">
+        <Container>
+          <MotionStack 
+            spacing={4} 
+            alignItems="center" 
+            sx={{ maxWidth: 900, mx: 'auto' }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            Engineered for speed <br /> 
-            <Box component="span" sx={{ color: alpha("#fff", 0.9) }}>and innovation.</Box>
-          </Typography>
+            {/* Tagline - Services Style */}
+            <Typography 
+              variant="overline" 
+              fontWeight="700" 
+              sx={{ letterSpacing: 2, color: '#fff', opacity: 0.9 }}
+            >
+              INNOVATING THE DIGITAL FRONTIER
+            </Typography>
 
-          <Typography 
-            variant="body1" 
-            sx={{ 
-              fontSize: { xs: '1.1rem', md: '1.25rem' }, 
-              color: alpha("#fff", 0.7), 
-              mb: 6,
-              maxWidth: "580px",
-              animation: `${fadeIn} 1s ease-out forwards`
-            }}
-          >
-            We help enterprises and high-growth startups modernize with 
-            confidence through high-performance web solutions.
-          </Typography>
+            {/* Main Heading - Services Style */}
+            <Typography 
+              variant="h1" 
+              sx={{ 
+                fontSize: { xs: '3rem', md: '5rem' }, 
+                fontWeight: 900, 
+                lineHeight: 1.1,
+                color: "#fff",
+                textTransform: "uppercase",
+                letterSpacing: "-0.02em"
+              }}
+            >
+              Engineered for speed <br /> 
+              <Box component="span" sx={{ color: alpha("#fff", 0.7) }}>
+                and innovation.
+              </Box>
+            </Typography>
 
-          <Stack direction={{ xs: "column", sm: "row" }} spacing={3}>
-            <MotionDiv whileHover={{ y: -4 }} whileTap={{ scale: 0.97 }}>
-              <PillButton variant="contained">Get Started</PillButton>
-            </MotionDiv>
+            {/* Subtext - Services Style (Muted text replacement) */}
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                fontSize: { xs: '1.1rem', md: '1.3rem' }, 
+                color: alpha("#fff", 0.9), 
+                maxWidth: "700px",
+                lineHeight: 1.7,
+                fontWeight: 400
+              }}
+            >
+              We deliver high-quality and sustainable software solutions 
+              to help enterprises and high-growth startups modernize with confidence.
+            </Typography>
 
-            <MotionDiv whileHover={{ y: -4 }} whileTap={{ scale: 0.97 }}>
-              <PillButton variant="outlined">Talk to Our Experts</PillButton>
-            </MotionDiv>
-          </Stack>
-        </Box>
-      </Container>
-    </HeroWrap>
+            {/* Buttons - Services Style Stack */}
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ pt: 3 }}>
+              <ActionButton variant="contained">
+                Get Started
+              </ActionButton>
+
+              <ActionButton variant="outlined">
+                Talk to Our Experts
+              </ActionButton>
+            </Stack>
+          </MotionStack>
+        </Container>
+      </HeroWrap>
+    </Box>
   );
 };

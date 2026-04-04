@@ -92,8 +92,8 @@ export const Footer: React.FC = () => {
                  alt="GBM Logo" 
                  style={{ height: 35, filter: 'brightness(0) invert(1)' }} 
                />
-               <Typography variant="h5" sx={{ fontWeight: 900, letterSpacing: -1 }}>
-                 GBM <Box component="span" sx={{ fontWeight: 300, color: alpha("#fff", 0.5) }}>SOFTTECH</Box>
+               <Typography variant="h5" sx={{ fontWeight: 1000, letterSpacing: -1 }}>
+                  <Box component="span" sx={{ fontWeight: 1000, color: alpha("#fff", 0.5) }}>SOFTTECH</Box>
                </Typography>
             </Box>
             <Typography variant="body2" sx={{ mb: 4, color: alpha("#fff", 0.5), lineHeight: 2, maxWidth: 320 }}>
@@ -110,14 +110,11 @@ export const Footer: React.FC = () => {
 
           {/* Column 2: Global Reach */}
           <Grid item xs={12} sm={6} md={2.5}>
-            <Typography variant="overline" sx={{ fontWeight: 900, mb: 4, display: 'block', color: 'primary.main', letterSpacing: 3 }}>
-              GLOBAL REACH
-            </Typography>
+            
             <Stack spacing={2.5}>
               {[
-                { city: "United States", region: "Headquarters" },
-                { city: "Hyderabad", region: "Innovation Hub" },
-                { city: "Pune", region: "Engineering Center" }
+                { city: "Pune", region: "Headquarters" },
+               
               ].map((loc, i) => (
                 <Box key={i}>
                   <Typography variant="body2" sx={{ fontWeight: 700, color: "#fff", display: 'flex', alignItems: 'center', gap: 1.5 }}>
@@ -139,7 +136,6 @@ export const Footer: React.FC = () => {
             <Stack spacing={2}>
               <FooterLink to="/about">About Agency</FooterLink>
               <FooterLink to="/services">Capabilities</FooterLink>
-              <FooterLink to="/portfolio">Work Archive</FooterLink>
               <FooterLink to="/careers">Join the Team</FooterLink>
               <FooterLink to="/contact">Get in Touch</FooterLink>
             </Stack>
