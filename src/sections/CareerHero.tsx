@@ -15,7 +15,7 @@ const HeroWrapper = styled(Box)(({ theme }) => ({
   paddingTop: theme.spacing(20),
   paddingBottom: theme.spacing(35),
   
-  background: `linear-gradient(150deg, ${alpha(theme.palette.primary.main, 0.92)} 0%, ${alpha(theme.palette.secondary.main, 0.88)} 100%), 
+background: `linear-gradient(150deg, ${alpha("#001e29", 0.95)} 0%, ${alpha("#001e29", 0.85)} 100%),
                url('https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=1600')`,
   backgroundSize: 'cover',
   backgroundPosition: 'center',

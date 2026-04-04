@@ -1,101 +1,147 @@
 import React from "react";
 import { Box, Typography, Button, Stack, useTheme, alpha } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { motion } from "framer-motion";
 import { Container } from "@components/ui/Section";
 import { MutedText } from "@components/ui/StyledCard";
 
+// --- STYLED COMPONENTS ---
+
 const HeroWrapper = styled(Box)(({ theme }) => ({
+  // ✅ THEME: Full-width breakout logic
   width: "100vw",
   position: "relative",
   left: "50%",
   right: "50%",
   marginLeft: "-50vw",
   marginRight: "-50vw", 
-  paddingTop: theme.spacing(20),
-  paddingBottom: theme.spacing(25),
   
-  // Background gradient and image
-  background: `linear-gradient(150deg, ${alpha(theme.palette.primary.main, 0.94)} 0%, ${alpha(theme.palette.secondary.main, 0.88)} 100%), 
+  // ✅ THEME: Balanced padding for the concave curve
+  paddingTop: theme.spacing(22),
+  paddingBottom: theme.spacing(28),
+  
+  display: "flex",
+  alignItems: "center",
+  overflow: "hidden",
+  
+  // ✅ THEME: Deep Navy Brand Colors (#001e29) instead of the blue/secondary gradient
+  background: `linear-gradient(150deg, ${alpha("#001e29", 0.95)} 0%, ${alpha("#001e29", 0.85)} 100%), 
                url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=1600')`,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundAttachment: 'fixed', 
   
   textAlign: "center",
-  color: "#fff", // Main content color set to white
+  color: "#fff",
 
-  // --- THE CONCAVE (INNER CURVE) EFFECT ---
+  // ✅ THEME: The Concave (Inner Curve) Effect
   clipPath: "ellipse(150% 100% at 50% 0%)",
 }));
+
+const ActionButton = styled(Button)(({ theme, variant }) => ({
+  borderRadius: "99px",
+  padding: "16px 42px",
+  fontWeight: 900,
+  textTransform: "none",
+  fontSize: "1.1rem",
+  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+  
+  ...(variant === "contained" && {
+    backgroundColor: "#fff", // White background per theme
+    color: "#001e29",       // Navy text per theme
+    "&:hover": {
+      backgroundColor: alpha("#fff", 0.9),
+      transform: "translateY(-3px)",
+      boxShadow: `0px 15px 30px ${alpha("#000", 0.3)}`,
+    },
+  }),
+  
+  ...(variant === "outlined" && {
+    borderColor: "#fff",
+    color: "#fff",
+    borderWidth: "2px",
+    "&:hover": {
+      borderWidth: "2px",
+      borderColor: "#fff",
+      backgroundColor: alpha("#fff", 0.1),
+      transform: "translateY(-3px)",
+    },
+  }),
+}));
+
+// Safe Motion Component
+const MotionStack = motion.create ? motion.create(Stack) : motion(Stack);
+
+// --- MAIN COMPONENT ---
 
 export const ServicesHero = () => {
   const theme = useTheme();
 
   return (
     <Box sx={{ overflow: 'hidden', width: '100%' }}>
-      <HeroWrapper>
+      <HeroWrapper component="section">
         <Container>
-          <Stack spacing={4} alignItems="center" sx={{ maxWidth: 800, mx: 'auto' }}>
+          <MotionStack 
+            spacing={4} 
+            alignItems="center" 
+            sx={{ maxWidth: 850, mx: 'auto' }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
             
-            {/* Tagline - Set to white */}
-            <Typography variant="overline" fontWeight="700" sx={{ letterSpacing: 2, color: '#fff' }}>
+            {/* Tagline */}
+            <Typography 
+              variant="overline" 
+              fontWeight="900" 
+              sx={{ letterSpacing: 3, color: alpha('#fff', 0.8) }}
+            >
               AREAS WHAT WE SERVE
             </Typography>
 
-            {/* Heading - All white including the span */}
-            <Typography variant="h1" fontWeight="900" sx={{ fontSize: { xs: '3rem', md: '4.5rem' }, lineHeight: 1.1, color: '#fff' }}>
+            {/* Heading */}
+            <Typography 
+              variant="h1" 
+              fontWeight="900" 
+              sx={{ 
+                fontSize: { xs: '3rem', md: '5rem' }, 
+                lineHeight: 1.1, 
+                color: '#fff',
+                textTransform: "uppercase",
+                letterSpacing: "-0.02em"
+              }}
+            >
               IT Solutions for <br />
-              <Box component="span" sx={{ color: '#fff' }}>Your Business</Box>
+              <Box component="span" sx={{ color: alpha('#fff', 0.6) }}>Your Business</Box>
             </Typography>
 
-            {/* Subtext - Set to high-opacity white */}
-            <MutedText variant="h6" sx={{ fontWeight: 400, lineHeight: 1.6, color: alpha('#fff', 0.9) }}>
+            {/* Subtext */}
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                fontWeight: 400, 
+                lineHeight: 1.8, 
+                color: alpha('#fff', 0.9),
+                maxWidth: 700
+              }}
+            >
               Since our establishment, we have been delivering high-quality and sustainable 
-              software solutions for corporate business purposes.
-            </MutedText>
+              software solutions for corporate business purposes across the globe.
+            </Typography>
 
-            {/* Buttons - White Background with Blue Text */}
-            <Stack direction="row" spacing={2} justifyContent="center">
-              <Button 
-                variant="contained" 
-                size="large" 
-                sx={{ 
-                  px: 5, py: 1.8, 
-                  borderRadius: 99,
-                  backgroundColor: '#fff', // Button color white
-                  color: theme.palette.primary.main, // Button font blue (theme primary)
-                  fontWeight: '900',
-                  '&:hover': {
-                    backgroundColor: alpha('#fff', 0.9),
-                  }
-                }}
-              >
+            {/* Buttons */}
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={2} justifyContent="center" sx={{ pt: 2 }}>
+              <ActionButton variant="contained">
                 Learn More
-              </Button>
+              </ActionButton>
 
-              <Button 
-                variant="outlined" 
-                size="large" 
-                sx={{ 
-                  px: 5, py: 1.8, 
-                  borderRadius: 99,
-                  borderColor: '#fff', // Border white
-                  color: '#fff', // Font white for outlined
-                  borderWidth: 2,
-                  fontWeight: '900',
-                  '&:hover': {
-                    borderColor: '#fff',
-                    backgroundColor: alpha('#fff', 0.1),
-                    borderWidth: 2,
-                  }
-                }}
-              >
+              <ActionButton variant="outlined">
                 Get in Touch
-              </Button>
+              </ActionButton>
             </Stack>
-          </Stack>
+          </MotionStack>
         </Container>
       </HeroWrapper>
     </Box>
   );
-};
+};  

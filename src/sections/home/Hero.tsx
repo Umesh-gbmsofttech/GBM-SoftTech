@@ -1,10 +1,7 @@
 import React from "react";
-import { Box, Typography, Button, Stack, alpha, Container } from "@mui/material";
+import { Box, Typography, Button, Stack, alpha, Container, useTheme } from "@mui/material";
 import { styled, keyframes } from "@mui/material/styles";
 import { motion } from "framer-motion"; 
-
-// 1. FIX THE ERROR: Ensure this import path is correct for your project
-// If your image is named differently, change "download.jpg" to your actual filename
 import heroBg from "../../assets/download.jpg"; 
 
 // --- ANIMATIONS ---
@@ -15,30 +12,43 @@ const fadeIn = keyframes`
 
 // --- STYLED COMPONENTS ---
 
-const HeroWrap = styled(Box)({
+const HeroWrap = styled(Box)(({ theme }) => ({
+  // ✅ CONCAVE BREAKOUT LOGIC
+  width: "100vw",
   position: "relative",
-  height: "92vh",
+  left: "50%",
+  right: "50%",
+  marginLeft: "-50vw",
+  marginRight: "-50vw",
+  
+  // Adjusted height and padding to accommodate the curve
+  paddingTop: theme.spacing(5),
+  paddingBottom: theme.spacing(30), 
   minHeight: "750px",
-  width: "100%",
+  
   display: "flex",
   alignItems: "center",
   overflow: "hidden",
   backgroundColor: "#001e29",
   color: "#fff",
-});
+
+  // ✅ THE CONCAVE EFFECT
+  clipPath: "ellipse(150% 100% at 50% 0%)",
+}));
 
 const BackgroundImage = styled(Box)({
   position: "absolute",
   right: 0,
   top: 0,
-  width: "60%",
+  width: "100%", // Increased to full width to sit behind the gradient
   height: "100%",
   zIndex: 1,
   "&::before": {
     content: '""',
     position: "absolute",
     inset: 0,
-    background: "linear-gradient(to right, #001e29 5%, rgba(0, 30, 41, 0.7) 40%, transparent 100%)",
+    // Adjusted gradient to match the deep brand look
+    background: "linear-gradient(150deg, #001e29 20%, rgba(0, 30, 41, 0.7) 60%, transparent 100%)",
     zIndex: 2,
   },
   "& img": {
@@ -49,19 +59,21 @@ const BackgroundImage = styled(Box)({
   }
 });
 
-const PillButton = styled(Button)(({ variant }) => ({
+const PillButton = styled(Button)(({ theme, variant }) => ({
   borderRadius: "50px",
-  padding: "14px 38px",
-  fontWeight: 700,
+  padding: "16px 42px",
+  fontWeight: 800,
   textTransform: "none",
-  fontSize: "1.05rem",
+  fontSize: "1.1rem",
   transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
   ...(variant === "contained" && {
-    backgroundColor: " theme.palette.primary.main",
+    // Corrected the theme reference (removed quotes)
+    backgroundColor: theme.palette.primary.main,
     color: "#fff",
     "&:hover": {
-      backgroundColor: "theme.palette.primary.main",
-      boxShadow: "0px 10px 25px rgba(176, 222, 50, 0.35)",
+      backgroundColor: theme.palette.primary.main,
+      transform: "translateY(-3px)",
+      boxShadow: `0px 10px 25px ${alpha(theme.palette.primary.main, 0.4)}`,
     },
   }),
   ...(variant === "outlined" && {
@@ -70,63 +82,74 @@ const PillButton = styled(Button)(({ variant }) => ({
     border: "none",
     "&:hover": {
       backgroundColor: alpha("#fff", 0.9),
+      transform: "translateY(-3px)",
     },
   }),
 }));
 
-// 2. RESOLVE WARNING: Use motion.create if your version of Framer Motion requires it
 const MotionDiv = motion.create ? motion.create("div") : motion.div;
 
 export const Hero = () => {
+  const theme = useTheme();
+
   return (
-    <HeroWrap>
-      <BackgroundImage>
-        {/* This is where heroBg is used */}
-        <img src={heroBg} alt="Corporate Innovation" />
-      </BackgroundImage>
+    <Box sx={{ overflow: 'hidden', width: '100%' }}>
+      <HeroWrap>
+        <BackgroundImage>
+          <img src={heroBg} alt="Corporate Innovation" />
+        </BackgroundImage>
 
-      <Container sx={{ position: "relative", zIndex: 10 }}>
-        <Box sx={{ maxWidth: { xs: "100%", md: "700px" } }}>
-          
-          <Typography 
-            variant="h1" 
-            sx={{ 
-              fontSize: { xs: '2.8rem', md: '4.2rem' }, 
-              fontWeight: 800, 
-              lineHeight: 1.1,
-              mb: 3,
-              animation: `${fadeIn} 0.8s ease-out forwards`
-            }}
-          >
-            Engineered for speed <br /> 
-            <Box component="span" sx={{ color: alpha("#fff", 0.9) }}>and innovation.</Box>
-          </Typography>
+        <Container sx={{ position: "relative", zIndex: 10 }}>
+          <Box sx={{ maxWidth: { xs: "100%", md: "750px" }, textAlign: { xs: 'center', md: 'left' } }}>
+            
+            <Typography 
+              variant="h1" 
+              sx={{ 
+                fontSize: { xs: '3rem', md: '5rem' }, 
+                fontWeight: 900, 
+                lineHeight: 1.1,
+                mb: 3,
+                textTransform: 'uppercase',
+                animation: `${fadeIn} 0.8s ease-out forwards`
+              }}
+            >
+              Engineered for speed <br /> 
+              <Box component="span" sx={{ color: alpha("#fff", 0.6) }}>and innovation.</Box>
+            </Typography>
 
-          <Typography 
-            variant="body1" 
-            sx={{ 
-              fontSize: { xs: '1.1rem', md: '1.25rem' }, 
-              color: alpha("#fff", 0.7), 
-              mb: 6,
-              maxWidth: "580px",
-              animation: `${fadeIn} 1s ease-out forwards`
-            }}
-          >
-            We help enterprises and high-growth startups modernize with 
-            confidence through high-performance web solutions.
-          </Typography>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                fontSize: { xs: '1.1rem', md: '1.3rem' }, 
+                color: alpha("#fff", 0.8), 
+                mb: 6,
+                maxWidth: "600px",
+                fontWeight: 400,
+                lineHeight: 1.7,
+                animation: `${fadeIn} 1s ease-out forwards`,
+                mx: { xs: 'auto', md: 0 }
+              }}
+            >
+              We help enterprises and high-growth startups modernize with 
+              confidence through high-performance web solutions.
+            </Typography>
 
-          <Stack direction={{ xs: "column", sm: "row" }} spacing={3}>
-            <MotionDiv whileHover={{ y: -4 }} whileTap={{ scale: 0.97 }}>
-              <PillButton variant="contained">Get Started</PillButton>
-            </MotionDiv>
+            <Stack 
+              direction={{ xs: "column", sm: "row" }} 
+              spacing={3} 
+              justifyContent={{ xs: 'center', md: 'flex-start' }}
+            >
+              <MotionDiv whileHover={{ y: -4 }} whileTap={{ scale: 0.97 }}>
+                <PillButton variant="contained">Get Started</PillButton>
+              </MotionDiv>
 
-            <MotionDiv whileHover={{ y: -4 }} whileTap={{ scale: 0.97 }}>
-              <PillButton variant="outlined">Talk to Our Experts</PillButton>
-            </MotionDiv>
-          </Stack>
-        </Box>
-      </Container>
-    </HeroWrap>
+              <MotionDiv whileHover={{ y: -4 }} whileTap={{ scale: 0.97 }}>
+                <PillButton variant="outlined">Talk to Our Experts</PillButton>
+              </MotionDiv>
+            </Stack>
+          </Box>
+        </Container>
+      </HeroWrap>
+    </Box>
   );
 };
