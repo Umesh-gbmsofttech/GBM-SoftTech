@@ -2,11 +2,8 @@ import React from 'react';
 import { Box, Container, Grid, Typography, Button, Stack, alpha } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { motion } from 'framer-motion';
+// Replace this path with the actual location of your About.jpg file
 import AboutImg from '../../assets/About.jpg'; 
-
-// --- STABLE MOTION COMPONENTS (Defined outside to prevent re-creation) ---
-const MotionBox = motion.create(Box);
-const MotionButton = motion.create(Button);
 
 export const WhyChooseUs: React.FC = () => {
   const stats = [
@@ -44,7 +41,7 @@ export const WhyChooseUs: React.FC = () => {
       <Container maxWidth="lg">
         <Grid container spacing={8} alignItems="center">
           
-          {/* 1. LEFT COLUMN */}
+          {/* 1. LEFT COLUMN: Animated Underlined Stats */}
           <Grid item xs={12} md={3}>
             <motion.div
               variants={containerVariants}
@@ -54,8 +51,9 @@ export const WhyChooseUs: React.FC = () => {
             >
               <Stack spacing={0}>
                 {stats.map((stat, index) => (
-                  <MotionBox 
+                  <Box 
                     key={index} 
+                    component={motion.div}
                     variants={itemVariants}
                     whileHover={{ x: 10 }} 
                     sx={{ 
@@ -64,21 +62,38 @@ export const WhyChooseUs: React.FC = () => {
                       cursor: 'default'
                     }}
                   >
-                    <Typography variant="h3" sx={{ fontWeight: 900, color: '#001e29', mb: 1, fontSize: '2.8rem', lineHeight: 1 }}>
+                    <Typography 
+                      variant="h3" 
+                      sx={{ 
+                        fontWeight: 900, 
+                        color: '#001e29', 
+                        mb: 1,
+                        fontSize: '2.8rem',
+                        lineHeight: 1
+                      }}
+                    >
                       {stat.value}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: alpha('#001e29', 0.5), fontWeight: 600, letterSpacing: 0.5 }}>
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        color: alpha('#001e29', 0.5), 
+                        fontWeight: 600,
+                        letterSpacing: 0.5 
+                      }}
+                    >
                       {stat.label}
                     </Typography>
-                  </MotionBox>
+                  </Box>
                 ))}
               </Stack>
             </motion.div>
           </Grid>
 
-          {/* 2. CENTER COLUMN */}
+          {/* 2. CENTER COLUMN: Main Image with Entrance Animation */}
           <Grid item xs={12} md={5}>
-            <MotionBox 
+            <Box 
+              component={motion.div}
               initial={{ opacity: 0, scale: 0.9, rotateY: 15 }}
               whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
               viewport={{ once: true }}
@@ -94,7 +109,7 @@ export const WhyChooseUs: React.FC = () => {
             >
               <Box 
                 component="img"
-                src={AboutImg} 
+                src={AboutImg} // Using your uploaded image
                 alt="GBM SoftTech Excellence"
                 sx={{ 
                   width: '100%', 
@@ -105,10 +120,10 @@ export const WhyChooseUs: React.FC = () => {
                   '&:hover': { filter: 'grayscale(0%) contrast(1.1)' }
                 }}
               />
-            </MotionBox>
+            </Box>
           </Grid>
 
-          {/* 3. RIGHT COLUMN */}
+          {/* 3. RIGHT COLUMN: Content with Slide-up Animation */}
           <Grid item xs={12} md={4}>
             <motion.div
               initial={{ opacity: 0, x: 30 }}
@@ -118,48 +133,81 @@ export const WhyChooseUs: React.FC = () => {
             >
               <Stack spacing={4}>
                 <Stack direction="row" spacing={2} alignItems="center">
-                  <MotionBox 
+                  <Box 
+                    component={motion.div}
                     initial={{ width: 0 }}
                     whileInView={{ width: 14 }}
                     transition={{ delay: 0.5, duration: 0.5 }}
                     sx={{ height: 2, bgcolor: '#1457e7' }} 
                   />
-                  <Typography variant="overline" sx={{ fontWeight: 900, color: '#1457e7', letterSpacing: 4 }}>
+                  <Typography 
+                    variant="overline" 
+                    sx={{ 
+                      fontWeight: 900, 
+                      color: '#1457e7', 
+                      letterSpacing: 4 
+                    }}
+                  >
                     ABOUT COMPANY
                   </Typography>
                 </Stack>
 
-                <Typography variant="h2" sx={{ fontWeight: 900, color: '#001e29', lineHeight: 1.1, fontSize: { xs: '2.5rem', md: '3.8rem' }, letterSpacing: '-0.03em' }}>
+                <Typography 
+                  variant="h2" 
+                  sx={{ 
+                    fontWeight: 900, 
+                    color: '#001e29', 
+                    lineHeight: 1.1,
+                    fontSize: { xs: '2.5rem', md: '3.8rem' },
+                    letterSpacing: '-0.03em'
+                  }}
+                >
                   Creative agency & their best solutions
                 </Typography>
 
-                <Typography sx={{ color: alpha('#001e29', 0.6), lineHeight: 1.9, fontSize: '1.05rem', fontWeight: 400 }}>
-                  GBM SoftTech specializes in high-concurrency systems and resilient frontend architecture.
+                <Typography 
+                  sx={{ 
+                    color: alpha('#001e29', 0.6), 
+                    lineHeight: 1.9, 
+                    fontSize: '1.05rem',
+                    fontWeight: 400 
+                  }}
+                >
+                  GBM SoftTech specializes in high-concurrency systems and resilient 
+                  frontend architecture. We empower global brands through logic-driven 
+                  design and architectural integrity.
                 </Typography>
 
                 <Box sx={{ pt: 2 }}>
-                  <MotionButton 
-                    whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(41, 93, 215, 0.25)' }}
+                  <Button 
+                    component={motion.button}
+                    whileHover={{ 
+                      scale: 1.05, 
+                      boxShadow: '0 20px 40px rgba(41, 93, 215, 0.25)' 
+                    }}
                     whileTap={{ scale: 0.95 }}
                     variant="contained" 
                     endIcon={<ArrowForwardIcon />}
                     sx={{ 
                       bgcolor: '#1457e7', 
                       borderRadius: '50px', 
-                      px: 5, py: 2,
+                      px: 5, 
+                      py: 2,
                       textTransform: 'none',
                       fontWeight: 800,
                       color: '#ffffff',
+                      fontSize: '1rem',
                       boxShadow: '0 15px 30px rgba(41, 93, 215, 0.25)',
                       '&:hover': { bgcolor: '#1457e7' }
                     }}
                   >
                     Read More
-                  </MotionButton>
+                  </Button>
                 </Box>
               </Stack>
             </motion.div>
           </Grid>
+
         </Grid>
       </Container>
     </Box>

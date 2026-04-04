@@ -8,8 +8,8 @@ import { motion, HTMLMotionProps } from "framer-motion";
 
 const CTAWrapper = styled(motion.div)<HTMLMotionProps<"div">>(({ theme }) => ({
   position: "relative",
-  padding: theme.spacing(10, 8),
-  borderRadius: "0px", // Sharp architectural edges
+  padding: theme.spacing(12, 8),
+  borderRadius: "24px", 
   backgroundColor: "#001e29",
   overflow: "hidden",
   border: `1px solid ${alpha("#fff", 0.1)}`,
@@ -17,78 +17,106 @@ const CTAWrapper = styled(motion.div)<HTMLMotionProps<"div">>(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   textAlign: "center",
+  boxShadow: `0 40px 80px -20px ${alpha("#001e29", 0.4)}`,
   
-  // High-end Mesh Gradient Background
-  "&::before": {
+  
+  background: `linear-gradient(135deg, #001e29 0%, #003547 100%)`,
+  
+  "&::after": {
     content: '""',
     position: "absolute",
-    top: "-50%",
-    left: "-50%",
-    width: "200%",
-    height: "200%",
-    background: `radial-gradient(circle at 50% 50%, ${alpha(theme.palette.primary.main, 0.15)} 0%, transparent 50%)`,
-    zIndex: 0,
+    inset: 0,
+    background: `radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), ${alpha("#3b82f6", 0.15)} 0%, transparent 50%)`,
+    zIndex: 1,
   }
 }));
 
-const TechPattern = styled(Box)({
+const CircuitPattern = styled(motion.div)({
   position: "absolute",
   inset: 0,
   opacity: 0.05,
-  backgroundImage: `radial-gradient(${alpha("#fff", 1)} 0.5px, transparent 0.5px)`,
-  backgroundSize: "30px 30px",
+
+  backgroundImage: `
+    linear-gradient(${alpha("#fff", 1)} 1px, transparent 1px),
+    linear-gradient(90deg, ${alpha("#fff", 1)} 1px, transparent 1px)
+  `,
+  backgroundSize: "40px 40px",
+  maskImage: "radial-gradient(ellipse at center, black, transparent 80%)",
   zIndex: 1,
 });
 
-const GlowButton = styled(Button)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
+const GlowButton = styled(motion.button)(({ theme }) => ({
+  backgroundColor: "#3ca61c", // GBM Orange for high-conversion focus
   color: "#fff",
-  padding: theme.spacing(2, 6),
+  padding: "18px 48px",
   fontSize: "1rem",
   fontWeight: 900,
-  borderRadius: "0px",
+  borderRadius: "12px",
+  border: "none",
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
   letterSpacing: "2px",
-  transition: "all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1)",
-  boxShadow: `0 10px 30px ${alpha(theme.palette.primary.main, 0.3)}`,
+  textTransform: "uppercase",
+  boxShadow: `0 15px 30px ${alpha("#1c5ca6", 0.4)}`,
+  transition: "all 0.3s ease",
   "&:hover": {
-    backgroundColor: "#fff",
-    color: "#001e29",
-    transform: "translateY(-5px)",
-    boxShadow: `0 20px 40px ${alpha("#fff", 0.2)}`,
-    "& .MuiButton-endIcon": { transform: "translateX(8px)" }
-  },
-  "& .MuiButton-endIcon": { transition: "transform 0.4s ease" }
+    backgroundColor: "#1c5ca6",
+    boxShadow: `0 20px 40px ${alpha("#1c5ca6", 0.5)}`,
+  }
 }));
 
-// --- MAIN COMPONENT ---
 
 export const CTASection: React.FC = () => {
+  // Logic to track mouse for the subtle background glow
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    e.currentTarget.style.setProperty("--mouse-x", `${x}%`);
+    e.currentTarget.style.setProperty("--mouse-y", `${y}%`);
+  };
+
   return (
-    <Box component="section" sx={{ py: 15, bgcolor: "#fff" }}>
+    <Box component="section" sx={{ py: 20, bgcolor: "#fff" }}>
       <Container maxWidth="lg">
         <CTAWrapper
-          initial={{ opacity: 0, scale: 0.98 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          onMouseMove={handleMouseMove}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <TechPattern />
+          {/* Animated Circuit Overlay */}
+          <CircuitPattern 
+            animate={{ 
+              opacity: [0.03, 0.07, 0.03],
+              backgroundPosition: ["0px 0px", "40px 40px"] 
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          />
           
           <Box sx={{ position: "relative", zIndex: 2 }}>
-            <Stack direction="row" spacing={1} justifyContent="center" alignItems="center" sx={{ mb: 3 }}>
-              <Bolt sx={{ color: "primary.main", fontSize: "1.2rem" }} />
-              <Typography 
-                variant="overline" 
-                sx={{ 
-                  color: "primary.main", 
-                  fontWeight: 900, 
-                  letterSpacing: 6,
-                  opacity: 0.8
-                }}
-              >
-                NEXT STEPS
-              </Typography>
-            </Stack>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              <Stack direction="row" spacing={1} justifyContent="center" alignItems="center" sx={{ mb: 4 }}>
+                <Bolt sx={{ color: "#3ca61c", fontSize: "1.5rem" }} />
+                <Typography 
+                  variant="overline" 
+                  sx={{ 
+                    color: "#3ca61c", 
+                    fontWeight: 900, 
+                    letterSpacing: 4,
+                  }}
+                >
+                  SYSTEM READY
+                </Typography>
+              </Stack>
+            </motion.div>
 
             <Typography 
               variant="h2" 
@@ -96,57 +124,56 @@ export const CTASection: React.FC = () => {
                 fontWeight: 900, 
                 color: "#fff", 
                 mb: 3, 
-                fontSize: { xs: "2.5rem", md: "4.5rem" },
-                lineHeight: 1,
+                fontSize: { xs: "2.8rem", md: "4.5rem" },
+                lineHeight: 1.1,
                 letterSpacing: "-0.04em"
               }}
             >
               Ready to engineer <br />
-              <Box component="span" sx={{ color: alpha("#fff", 0.15) }}>your next impact?</Box>
+              <Box component="span" sx={{ color: alpha("#fff", 0.2) }}>your next impact?</Box>
             </Typography>
 
             <Typography 
               sx={{ 
                 color: alpha("#fff", 0.6), 
                 fontSize: "1.2rem", 
-                maxWidth: "600px", 
+                maxWidth: "650px", 
                 mx: "auto", 
-                mb: 6,
+                mb: 8,
                 lineHeight: 1.8 
               }}
             >
-              Whether you're scaling a startup or modernizing an enterprise, 
-              we provide the technical precision to get you there.
+              Join 50+ enterprises scaling with GBM SoftTech. From legacy modernization 
+              to greenfield AI infrastructure, we deploy excellence.
             </Typography>
 
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <GlowButton 
-                variant="contained" 
-                endIcon={<ArrowForward />}
+            <Stack direction="row" justifyContent="center">
+              <GlowButton
+                whileHover={{ scale: 1.05, y: -5 }}
+                whileTap={{ scale: 0.98 }}
               >
-                START A CONVERSATION
+                Get Started
+                <ArrowForward />
               </GlowButton>
-            </motion.div>
+            </Stack>
           </Box>
 
-          {/* Decorative Corner Element */}
+          {/* Decorative Corner Accent */}
           <Box 
             sx={{ 
               position: "absolute", 
-              bottom: 0, 
-              right: 0, 
-              width: "150px", 
-              height: "150px", 
-              borderTop: `1px solid ${alpha("#fff", 0.1)}`,
-              borderLeft: `1px solid ${alpha("#fff", 0.1)}`,
-              opacity: 0.5
+              bottom: 20, 
+              right: 20, 
+              width: "60px", 
+              height: "60px", 
+              borderRight: "2px solid #1c5ca6", 
+              borderBottom: "2px solid #1c5ca6",
+              opacity: 0.3,
+              borderRadius: "0 0 12px 0"
             }} 
           />
         </CTAWrapper>
       </Container>
     </Box>
   );
-};
+}; 
