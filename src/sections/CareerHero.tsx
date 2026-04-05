@@ -4,7 +4,7 @@ import { Box, Typography, alpha, Stack, Fade, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { motion, AnimatePresence } from "framer-motion";
 import { Pill } from "@components/ui/StyledCard";
-import careerVideo from "../assets/animation.mp4";
+import careerVideo from "../assets/Animation.mp4";
 
 const HeroWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
