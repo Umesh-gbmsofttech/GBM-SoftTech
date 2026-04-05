@@ -6,7 +6,7 @@ export const buildTheme = (_mode: PaletteMode) => {
     palette: {
       mode: 'light', // Force light for a bright theme
       primary: {
-        main: "#00A3E0", // GBM Blue
+        main: "#024aa8", // GBM Blue
         contrastText: "#ffffff",
       },
       secondary: {

@@ -75,11 +75,12 @@ export const ContactFormSection = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    contactNumber: "",
     serviceType: "",
     message: ""
   });
 
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzcSp9GxkdtfpCFFAt5sd7BIZUH_HHzKFuwXlsNP6WtnLFBL0CY37wmHq3RgGAoPMZVdQ/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyISxNX3rc-0PuAGkxdJU_7fEsNs8_aqdAdR_kohTd3Rm9_OdsTyh8OngwBegQProKplQ/exec";
 
   // MAP DATA
   const mapLink = "https://share.google/eBdz7NyS5Q1Wcla9P";
@@ -110,7 +111,7 @@ export const ContactFormSection = () => {
       });
 
       setSuccessOpen(true);
-      setFormData({ name: "", email: "", serviceType: "", message: "" });
+      setFormData({ name: "", email: "", contactNumber: "", serviceType: "", message: "" });
     } catch (error) {
       console.error("Error!", error);
       alert("Something went wrong. Please try again.");
@@ -128,6 +129,15 @@ export const ContactFormSection = () => {
           <FormGrid component="form" onSubmit={handleSubmit}>
             <TextField label="Name" name="name" value={formData.name} onChange={handleChange} fullWidth required />
             <TextField label="Email" name="email" value={formData.email} onChange={handleChange} fullWidth required />
+            <TextField
+              label="Contact Number"
+              name="contactNumber"
+              value={formData.contactNumber}
+              onChange={handleChange}
+              placeholder="+91 98765 43210"
+              fullWidth
+              required
+            />
             <TextField label="Service Type" name="serviceType" select fullWidth value={formData.serviceType} onChange={handleChange} required>
               {["Website Development", "Mobile App Development", "Digital Marketing", "Custom Solutions"].map((s) => (
                 <MenuItem key={s} value={s}>{s}</MenuItem>

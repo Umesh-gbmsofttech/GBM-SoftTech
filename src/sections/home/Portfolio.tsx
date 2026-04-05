@@ -123,7 +123,7 @@ export const Portfolio: React.FC = () => {
               variant="h2" 
               sx={{ fontWeight: 900, fontSize: { xs: "2.8rem", md: "4rem" }, color: "#001e29", letterSpacing: "-0.04em", lineHeight: 1 }}
             >
-              Engineering <Box component="span" sx={{ color: alpha("#001e29", 0.15) }}>Impact.</Box>
+              Engineering <Box component="span" sx={{ color: alpha("#001e29", 0.5) }}>Impact.</Box>
             </Typography>
             <Button 
               endIcon={<ArrowForwardOutlined />} 

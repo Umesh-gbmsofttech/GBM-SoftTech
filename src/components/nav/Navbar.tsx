@@ -3,19 +3,16 @@ import React, { useState } from "react";
 import { AppBar, Box, Toolbar, Button, Menu, MenuItem, IconButton } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
 import { Link, useLocation } from "react-router-dom";
-import { 
-  LanguageOutlined, 
+import {
+  LanguageOutlined,
   KeyboardArrowDownOutlined,
-  Menu as MenuIcon
+  Menu as MenuIcon,
 } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import { routeConfig } from "@routes/routeConfig";
 import logo from "@assets/gbm-logo1.png";
 
-// --- Styled Components ---
-
 const GlassBar = styled(AppBar)(() => ({
-  // Forced Bright Theme
   backgroundColor: alpha("#ffffff", 0.9),
   boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
   backdropFilter: "blur(20px)",
@@ -24,7 +21,7 @@ const GlassBar = styled(AppBar)(() => ({
 }));
 
 const NavLink = styled(Link, {
-  shouldForwardProp: (prop) => prop !== "active"
+  shouldForwardProp: (prop) => prop !== "active",
 })<{ active?: boolean }>(({ theme, active }) => ({
   display: "inline-flex",
   alignItems: "center",
@@ -38,30 +35,29 @@ const NavLink = styled(Link, {
   textDecoration: "none",
   transition: "all 0.2s ease",
   "&:hover": {
-    color: theme.palette.primary.main,
-    backgroundColor: alpha(theme.palette.primary.main, 0.04),
+    backgroundColor: "transparent",
+    color: "#024aa8",
   },
 }));
 
-const LogoWrap = styled(Link)(({ theme }) => ({
+const LogoWrap = styled(Link)(() => ({
   display: "flex",
   alignItems: "center",
-  gap: theme.spacing(1.2),
   textDecoration: "none",
+  height: "100%",
 }));
 
 const LogoImage = styled("img")({
-  width: 70,
-  height: 70,
+  height: "45px",
+  width: "auto",
+  display: "block",
   objectFit: "contain",
+  objectPosition: "left",
+  filter: "drop-shadow(0px 1px 2px rgba(0,0,0,0.05))",
 });
-
-// --- Main Component ---
 
 export const Navbar = () => {
   const location = useLocation();
-  
-  // Language Menu State
   const [langAnchor, setLangAnchor] = useState<null | HTMLElement>(null);
   const [mobileNavAnchor, setMobileNavAnchor] = useState<null | HTMLElement>(null);
   const [language, setLanguage] = useState("English (US)");
@@ -70,7 +66,9 @@ export const Navbar = () => {
   const handleMobileNavOpen = (event: React.MouseEvent<HTMLButtonElement>) => setMobileNavAnchor(event.currentTarget);
   const handleMobileNavClose = () => setMobileNavAnchor(null);
   const handleLangClose = (label: string) => {
-    if (typeof label === 'string') setLanguage(label);
+    if (typeof label === "string") {
+      setLanguage(label);
+    }
     setLangAnchor(null);
   };
 
@@ -78,79 +76,73 @@ export const Navbar = () => {
     <motion.div
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.5 }}
     >
       <GlassBar position="fixed" elevation={0}>
         <Toolbar
           sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            px: { xs: 1.5, sm: 2, md: 3 }
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            px: { xs: 1.5, sm: 2, md: 3 },
           }}
         >
-          
-          {/* LEFT SIDE: Brand Logo */}
-          <Box sx={{ flex: { xs: '0 1 auto', md: 1 }, minWidth: 0, display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ flex: { xs: "0 1 auto", md: 1 }, minWidth: 0, display: "flex", alignItems: "center" }}>
             <LogoWrap to="/">
-              <LogoImage src={logo} alt="GBM Logo" />
+              <LogoImage src={logo} alt="GBM SoftTech Logo" />
             </LogoWrap>
           </Box>
 
-          {/* CENTER: Navigation Links */}
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 0.5, justifyContent: 'center' }}>
+          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 0.5, justifyContent: "center" }}>
             {routeConfig.map((route) => (
-              <NavLink
-                key={route.path}
-                to={route.path}
-                active={location.pathname === route.path}
-              >
+              <NavLink key={route.path} to={route.path} active={location.pathname === route.path}>
                 {route.name}
               </NavLink>
             ))}
           </Box>
 
-          {/* RIGHT SIDE: Language Selection */}
           <Box
             sx={{
-              flex: { xs: '0 0 auto', md: 1 },
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
+              flex: { xs: "0 0 auto", md: 1 },
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
               gap: 1,
-              ml: { xs: 'auto', md: 0 }
+              ml: { xs: "auto", md: 0 },
             }}
           >
             <IconButton
               onClick={handleMobileNavOpen}
               sx={{
-                display: { xs: 'inline-flex', md: 'none' },
-                color: '#1a1a1a',
+                display: { xs: "inline-flex", md: "none" },
+                color: "#1a1a1a",
                 border: `1px solid ${alpha("#000000", 0.08)}`,
-                borderRadius: '10px',
+                borderRadius: "10px",
                 flexShrink: 0,
-                bgcolor: alpha("#ffffff", 0.9)
+                bgcolor: alpha("#ffffff", 0.9),
               }}
               aria-label="Open navigation menu"
             >
               <MenuIcon />
             </IconButton>
+
             <Button
               variant="text"
               startIcon={<LanguageOutlined sx={{ fontSize: 18 }} />}
               endIcon={<KeyboardArrowDownOutlined sx={{ fontSize: 16 }} />}
               onClick={handleLangOpen}
-              sx={{ 
-                textTransform: 'none', 
-                fontWeight: 700, 
-                color: '#1a1a1a',
-                borderRadius: '8px',
+              sx={{
+                textTransform: "none",
+                fontWeight: 700,
+                color: "#1a1a1a",
+                borderRadius: "8px",
                 px: 2,
-                display: { xs: 'none', sm: 'inline-flex' }
+                display: { xs: "none", sm: "inline-flex" },
               }}
             >
               {language}
             </Button>
+
             <Menu
               anchorEl={mobileNavAnchor}
               open={Boolean(mobileNavAnchor)}
@@ -159,10 +151,10 @@ export const Navbar = () => {
                 sx: {
                   mt: 1,
                   minWidth: 220,
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
-                  borderRadius: '14px',
-                  overflow: 'hidden'
-                }
+                  boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
+                  borderRadius: "14px",
+                  overflow: "hidden",
+                },
               }}
             >
               {routeConfig.map((route) => (
@@ -175,32 +167,43 @@ export const Navbar = () => {
                   sx={{
                     py: 1.5,
                     fontWeight: 700,
-                    color: location.pathname === route.path ? 'primary.main' : '#1a1a1a'
+                    color: location.pathname === route.path ? "primary.main" : "#1a1a1a",
                   }}
                 >
                   {route.name}
                 </MenuItem>
               ))}
             </Menu>
+
             <Menu
               anchorEl={langAnchor}
               open={Boolean(langAnchor)}
               onClose={() => setLangAnchor(null)}
               PaperProps={{
-                sx: { mt: 1, boxShadow: '0 4px 20px rgba(0,0,0,0.1)', borderRadius: '12px' }
+                sx: {
+                  mt: 1,
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                  borderRadius: "12px",
+                },
               }}
             >
-              <MenuItem onClick={() => handleLangClose("English (US)")} sx={{ fontWeight: 600 }}>English (US)</MenuItem>
-              <MenuItem onClick={() => handleLangClose("Deutsch")} sx={{ fontWeight: 600 }}>Deutsch</MenuItem>
-              <MenuItem onClick={() => handleLangClose("Français")} sx={{ fontWeight: 600 }}>Français</MenuItem>
-              <MenuItem onClick={() => handleLangClose("हिन्दी")} sx={{ fontWeight: 600 }}>हिन्दी</MenuItem>
+              <MenuItem onClick={() => handleLangClose("English (US)")} sx={{ fontWeight: 600 }}>
+                English (US)
+              </MenuItem>
+              <MenuItem onClick={() => handleLangClose("Deutsch")} sx={{ fontWeight: 600 }}>
+                Deutsch
+              </MenuItem>
+              <MenuItem onClick={() => handleLangClose("Francais")} sx={{ fontWeight: 600 }}>
+                Francais
+              </MenuItem>
+              <MenuItem onClick={() => handleLangClose("Hindi")} sx={{ fontWeight: 600 }}>
+                Hindi
+              </MenuItem>
             </Menu>
           </Box>
-
         </Toolbar>
       </GlassBar>
-      {/* Spacer to push page content below the fixed header */}
-      <Toolbar /> 
+      <Toolbar />
     </motion.div>
   );
 };

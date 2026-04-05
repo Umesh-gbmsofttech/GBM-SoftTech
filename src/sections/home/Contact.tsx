@@ -1,15 +1,16 @@
 // @ts-nocheck
 import { useState } from 'react';
-import { 
-  Box, 
-  Container, 
-  Grid, 
-  Typography, 
-  TextField, 
-  Button, 
-  Stack, 
-  alpha, 
-  CircularProgress 
+import {
+  Box,
+  Container,
+  Grid,
+  Typography,
+  TextField,
+  Button,
+  Stack,
+  alpha,
+  CircularProgress,
+  MenuItem
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { PhoneInTalk, MailOutline, LocationOnOutlined, CheckCircleOutline } from '@mui/icons-material';
@@ -35,15 +36,15 @@ const UnderlinedInput = styled(TextField)(() => ({
     '&:hover:not(.Mui-disabled):before': { borderBottom: `2px solid ${alpha('#1976d2', 0.3)}` },
     padding: '10px 0',
   },
-  '& .MuiInputLabel-root': { 
+  '& .MuiInputLabel-root': {
     color: alpha('#001e29', 0.5),
     fontWeight: 600,
     textTransform: 'uppercase',
     letterSpacing: 1.5,
     fontSize: '0.75rem',
   },
-  '& .MuiInputBase-input': { 
-    color: '#001e29', 
+  '& .MuiInputBase-input': {
+    color: '#001e29',
     fontWeight: 500,
     fontSize: '1.1rem'
   },
@@ -54,19 +55,56 @@ const UnderlinedInput = styled(TextField)(() => ({
 export const Contact: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    contactNumber: '',
+    serviceType: '',
+    message: '',
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyISxNX3rc-0PuAGkxdJU_7fEsNs8_aqdAdR_kohTd3Rm9_OdsTyh8OngwBegQProKplQ/exec";
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+
+    try {
+      const payload = {
+        ...formData,
+        formType: 'contact',
+      };
+
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
       setSubmitted(true);
-    }, 1500);
+      setFormData({
+        name: '',
+        email: '',
+        contactNumber: '',
+        serviceType: '',
+        message: '',
+      });
+    } catch (error) {
+      console.error('Error!', error);
+      alert('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div style={{ paddingTop: "160px", paddingBottom: "160px", backgroundColor: "#fbfcfd", position: "relative", overflow: "hidden" }}>
-      
+
       {/* Soft Background Decor */}
       <div
         style={{
@@ -82,7 +120,7 @@ export const Contact: React.FC = () => {
 
       <Container maxWidth="lg">
         <Grid container spacing={10} alignItems="center">
-          
+
           {/* Content Side */}
           <Grid item xs={12} md={5}>
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
@@ -134,30 +172,58 @@ export const Contact: React.FC = () => {
                     sx={{ textAlign: 'center', py: 10 }}
                   >
                     <CheckCircleOutline sx={{ fontSize: 80, color: '#10b981', mb: 3 }} />
-                    <Typography variant="h4" sx={{ fontWeight: 900 }}>Transmission Received</Typography>
+                    <Typography variant="h4" sx={{ fontWeight: 900 }}>Message Received</Typography>
                     <Button onClick={() => setSubmitted(false)} sx={{ mt: 4, fontWeight: 700 }}>Back to Form</Button>
                   </Box>
                 ) : (
                   <Box component="form" onSubmit={handleSubmit}>
                     <Grid container spacing={5}>
                       <Grid item xs={12} sm={6}>
-                        <UnderlinedInput fullWidth label="Your Name" variant="standard" required />
+                        <UnderlinedInput fullWidth label="Your Name" variant="standard" name="name" value={formData.name} onChange={handleChange} required />
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <UnderlinedInput fullWidth label="Email" variant="standard" type="email" required />
+                        <UnderlinedInput fullWidth label="Email" variant="standard" type="email" name="email" value={formData.email} onChange={handleChange} required />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <UnderlinedInput
+                          fullWidth
+                          label="Contact Number"
+                          variant="standard"
+                          name="contactNumber"
+                          value={formData.contactNumber}
+                          onChange={handleChange}
+                          placeholder="+91 98765 43210"
+                          InputLabelProps={{ shrink: true }}
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <UnderlinedInput
+                          fullWidth
+                          label="Service Type"
+                          variant="standard"
+                          name="serviceType"
+                          value={formData.serviceType}
+                          onChange={handleChange}
+                          select
+                          required
+                        >
+                          {["Website Development", "Mobile App Development", "Digital Marketing", "Custom Solutions"].map((service) => (
+                            <MenuItem key={service} value={service}>
+                              {service}
+                            </MenuItem>
+                          ))}
+                        </UnderlinedInput>
                       </Grid>
                       <Grid item xs={12}>
-                        <UnderlinedInput fullWidth label="Project Type" variant="standard" required />
+                        <UnderlinedInput fullWidth multiline rows={3} label="Message" variant="standard" name="message" value={formData.message} onChange={handleChange} required />
                       </Grid>
                       <Grid item xs={12}>
-                        <UnderlinedInput fullWidth multiline rows={3} label="Message" variant="standard" required />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Button 
-                          type="submit" 
-                          variant="contained" 
+                        <Button
+                          type="submit"
+                          variant="contained"
                           disabled={loading}
-                          sx={{ 
+                          sx={{
                             py: 2, px: 6, borderRadius: '12px', bgcolor: '#114abd', color: '#fff',
                             fontWeight: 800, fontSize: '0.9rem', letterSpacing: 2,
                             boxShadow: '0 20px 40px rgba(0,30,41,0.2)',

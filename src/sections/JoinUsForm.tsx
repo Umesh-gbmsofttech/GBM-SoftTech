@@ -55,10 +55,11 @@ export const JoinUsForm = () => {
       formType: "join",
       name: formData.get("name"),
       email: formData.get("email"),
+      contactNumber: formData.get("contactNumber"),
       link: formData.get("link"),
     };
 
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzcSp9GxkdtfpCFFAt5sd7BIZUH_HHzKFuwXlsNP6WtnLFBL0CY37wmHq3RgGAoPMZVdQ/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyISxNX3rc-0PuAGkxdJU_7fEsNs8_aqdAdR_kohTd3Rm9_OdsTyh8OngwBegQProKplQ/exec";
 
     try {
       await fetch(SCRIPT_URL, {
@@ -94,6 +95,13 @@ export const JoinUsForm = () => {
             <Box component="form" onSubmit={handleSubmit} sx={{ display: 'grid', gap: 3 }}>
               <SharpInput name="name" placeholder="Full Name" fullWidth required disabled={loading} />
               <SharpInput name="email" placeholder="Email Address" type="email" fullWidth required disabled={loading} />
+              <SharpInput
+                name="contactNumber"
+                placeholder="+91 98765 43210"
+                fullWidth
+                required
+                disabled={loading}
+              />
               <SharpInput name="link" placeholder="LinkedIn / Portfolio URL" fullWidth disabled={loading} />
 
               <Button
