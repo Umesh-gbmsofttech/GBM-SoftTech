@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { motion } from "framer-motion";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";

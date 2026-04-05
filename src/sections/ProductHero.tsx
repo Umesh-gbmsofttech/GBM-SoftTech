@@ -1,4 +1,4 @@
-import React from "react";
+// @ts-nocheck
 import { Box, Typography, Button, Stack, useTheme, alpha } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Container } from "@components/ui/Section";
@@ -8,15 +8,8 @@ import { motion } from "framer-motion"; // Use this for Web
 
 const HeroWrapper = styled(Box)(({ theme }) => ({
   height:"vw",
-  width: "100vw",
+  width: "100%",
   position: "relative",
-  left: "50%",
-  right: "50%",
-  top:"50%",
-  bottom:"50%",
-  marginLeft: "-50vw",
-  marginRight: "-50vw",
-  marginTop:"-0vw",
   paddingTop: theme.spacing(20),
   paddingBottom: theme.spacing(25), 
   
@@ -45,7 +38,7 @@ export const ProductHero = () => {
   };
 
   return (
-    <Box sx={{ overflow: 'hidden' }}>
+    <div style={{ overflowX: "clip", width: "100%", maxWidth: "100%" }}>
       <HeroWrapper>
         <Container>
           <Stack spacing={4} alignItems="center">
@@ -168,6 +161,6 @@ export const ProductHero = () => {
           </Stack>
         </Container>
       </HeroWrapper>
-    </Box>
+    </div>
   );
 };

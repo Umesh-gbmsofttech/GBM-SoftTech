@@ -1,7 +1,7 @@
-import { createTheme, responsiveFontSizes, alpha } from "@mui/material/styles";
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
 
-export const buildTheme = (mode: PaletteMode) => {
+export const buildTheme = (_mode: PaletteMode) => {
   let theme = createTheme({
     palette: {
       mode: 'light', // Force light for a bright theme
@@ -33,6 +33,18 @@ export const buildTheme = (mode: PaletteMode) => {
     components: {
       MuiCssBaseline: {
         styleOverrides: {
+          "html, body, #root": {
+            width: "100%",
+            maxWidth: "100%",
+            overflowX: "hidden",
+          },
+          "*, *::before, *::after": {
+            boxSizing: "border-box",
+          },
+          img: {
+            maxWidth: "100%",
+            display: "block",
+          },
           body: {
             backgroundColor: "#FFFFFF",
             // Subtle professional glow instead of dark gradients
@@ -41,6 +53,7 @@ export const buildTheme = (mode: PaletteMode) => {
             color: "#1A1A1A",
             margin: 0,
             padding: 0,
+            overflowX: "hidden",
           },
         },
       },

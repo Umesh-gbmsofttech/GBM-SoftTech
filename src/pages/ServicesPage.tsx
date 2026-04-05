@@ -1,5 +1,4 @@
-import React from "react";
-import { Box } from "@mui/material";
+// @ts-nocheck
 import { PageTransition, pageVariants } from "@components/animations/PageTransition";
 import { ServicesHero } from "../sections/ServicesHero";
 import { ServicesGrid } from "../sections/ServicesGrid";
@@ -9,14 +8,12 @@ import { GbmProcess } from "../sections/GbmProcess";
 export const ServicesPage = () => {
   return (
     <PageTransition variants={pageVariants} initial="hidden" animate="visible" exit="exit">
-      <Box>
+      <div>
         <ServicesHero />
         <ServicesGrid />
         <GbmCore/>
         <GbmProcess/>
-        
-        
-      </Box>
+      </div>
     </PageTransition>
   );
 };

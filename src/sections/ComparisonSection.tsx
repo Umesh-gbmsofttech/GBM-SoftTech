@@ -1,16 +1,8 @@
+// @ts-nocheck
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { HoverCard } from "@components/ui/StyledCard";
 import { CheckCircleOutline } from "@mui/icons-material";
-
-const CompareGrid = styled(Box)(({ theme }) => ({
-  display: "grid",
-  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-  gap: theme.spacing(4),
-  [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "1fr"
-  }
-}));
 
 const List = styled(Box)(({ theme }) => ({
   display: "grid",

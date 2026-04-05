@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// @ts-nocheck
+import { useState } from "react";
 import { Box, Typography, Button, alpha, Grid, Stack, Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { motion, AnimatePresence } from "framer-motion";

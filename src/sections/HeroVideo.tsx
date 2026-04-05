@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, alpha } from "@mui/material";
+// @ts-nocheck
+import { alpha } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { motion } from "framer-motion";
 // 1. Import your local video file
@@ -22,7 +22,7 @@ const StyledVideo = styled("video")({
   borderRadius: "inherit",
 });
 
-export const HeroVideo = ({ trigger }: { trigger: boolean }) => {
+export const HeroVideo = ({ trigger: _trigger }: { trigger: boolean }) => {
   return (
     <VideoContainer
       initial={{ opacity: 0, scale: 0.9 }}

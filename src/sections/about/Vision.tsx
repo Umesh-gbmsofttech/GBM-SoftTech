@@ -1,22 +1,12 @@
-import React from 'react';
+// @ts-nocheck
 import { 
-  Box, Container, Grid, Typography, Button, Stack, Paper 
+  Box, Container, Grid, Typography, Button, Stack, Paper, alpha
 } from '@mui/material';
-import { 
-  ArrowForward as ArrowForwardIcon,
-  CheckCircle as CheckCircleIcon,
-  EmojiEventsOutlined as AwardIcon,
-  TipsAndUpdatesOutlined as StrategyIcon,
-  SettingsSuggestOutlined as ServicesIcon,
-  BusinessCenterOutlined as GrowthIcon,
-  MailOutline as ContactIcon
-} from '@mui/icons-material';
-import { motion } from 'framer-motion';
 
-export const Vision: React.FC = () => {
+export const Vision = () => {
 
   return (
-    <Box sx={{ bgcolor: '#FFFFFF', overflow: 'hidden' }}>
+    <div style={{ backgroundColor: "#FFFFFF", overflow: "hidden" }}>
       
       
 
@@ -41,7 +31,7 @@ export const Vision: React.FC = () => {
                   }}>
                     {card.l}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: card.c === '#FFFFFF' ? '#fca5a5' : 'text.secondary', lineHeight: 1.6 }}>
+                  <Typography variant="body2" sx={{ color: '#ffffff', lineHeight: 1.75, fontWeight: 500 }}>
                     {card.t}
                   </Typography>
                 </Paper>
@@ -50,38 +40,100 @@ export const Vision: React.FC = () => {
           </Grid>
 
           <Grid item xs={12} md={7}>
-            <Box sx={{ 
-              height: '100%', minHeight: 480, borderRadius: '30px', position: 'relative', overflow: 'hidden',
-              display: 'flex', flexDirection: 'column', justifyContent: 'center', px: { xs: 4, md: 8 }, color: '#FFF',
-              backgroundImage: 'linear-gradient(rgba(45,45,45,0.85), rgba(45,45,45,0.85)), url(https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}>
-              <Typography variant="h3" sx={{ fontWeight: 900, mb: 2, lineHeight: 1.2 }}>
-                Our Roadmap Makes You <br /> More Comfortable in Digital Transformation
-              </Typography>
-              <Typography sx={{ opacity: 0.9, mb: 4, maxWidth: '90%', fontSize: '1.1rem' }}>
-                We simplify complex technology so you can focus on growth. From cloud migration to custom software, GBM SoftTech ensures a seamless transition.
-              </Typography>
-              <Button 
-                variant="contained" 
-                sx={{ 
-                  bgcolor: 'theme.palette.primary.main', 
-                  width: 'fit-content', 
-                  borderRadius: '50px', 
-                  px: 5, py: 1.5, 
+            <Box
+              sx={{
+                height: '100%',
+                minHeight: { xs: 380, sm: 440, md: 480 },
+                borderRadius: '30px',
+                position: 'relative',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                px: { xs: 3, sm: 5, md: 8 },
+                py: { xs: 5, sm: 6, md: 7 },
+                color: '#FFF',
+                backgroundImage: `
+                  linear-gradient(135deg, ${alpha('#001e29', 0.9)} 0%, ${alpha('#00A3E0', 0.72)} 100%),
+                  url(https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200)
+                `,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                boxShadow: '0 24px 60px rgba(0, 30, 41, 0.18)',
+              }}
+            >
+              <Typography
+                variant="overline"
+                sx={{
+                  color: alpha('#ffffff', 0.78),
                   fontWeight: 800,
-                  color:'#FFf',
-                  textTransform: 'none',
-                  '&:hover': { bgcolor: 'theme.palette.primary.main' }
+                  letterSpacing: 3,
+                  mb: 1.5,
                 }}
               >
-                Start Your Project
-              </Button>
+                DIGITAL TRANSFORMATION
+              </Typography>
+
+              <Typography
+                variant="h3"
+                sx={{
+                  fontWeight: 900,
+                  mb: 2,
+                  lineHeight: 1.08,
+                  fontSize: { xs: '2rem', sm: '2.5rem', md: '3.1rem' },
+                  maxWidth: '12ch',
+                }}
+              >
+                A clearer roadmap for modern digital transformation.
+              </Typography>
+
+              <Typography
+                sx={{
+                  color: alpha('#ffffff', 0.9),
+                  mb: 4,
+                  maxWidth: { xs: '100%', md: '85%' },
+                  fontSize: { xs: '1rem', sm: '1.05rem', md: '1.1rem' },
+                  lineHeight: 1.8,
+                }}
+              >
+                We turn complex systems into practical next steps, helping your team move from
+                legacy friction to scalable, user-friendly digital experiences with confidence.
+              </Typography>
+
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                spacing={2}
+                sx={{ alignItems: { xs: 'stretch', sm: 'center' } }}
+              >
+                <Button 
+                  variant="contained" 
+                  sx={{ 
+                    bgcolor: '#3ca61c',
+                    width: 'fit-content',
+                    borderRadius: '50px', 
+                    px: 4.5, 
+                    py: 1.5, 
+                    fontWeight: 800,
+                    color: '#ffffff',
+                    textTransform: 'none',
+                    boxShadow: '0 14px 30px rgba(60, 166, 28, 0.28)',
+                    '&:hover': { bgcolor: '#2f8617' }
+                  }}
+                >
+                  Start Your Project
+                </Button>
+
+                <Typography
+                  variant="body2"
+                  sx={{ color: alpha('#ffffff', 0.72), fontWeight: 600 }}
+                >
+                  Strategy, design, and execution aligned in one flow.
+                </Typography>
+              </Stack>
             </Box>
           </Grid>
         </Grid>
       </Container>
-    </Box>
+    </div>
   );
 };

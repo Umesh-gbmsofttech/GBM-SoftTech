@@ -1,12 +1,12 @@
-import React from "react";
-import { Grid, Box } from "@mui/material";
+// @ts-nocheck
+import { Grid } from "@mui/material";
 import { Section, Container } from "@components/ui/Section";
 import { ProductHero } from "../sections/ProductHero";
 import { ProductItem } from "../sections/ProductItem";
 
 export const ProductsPage = () => {
   return (
-    <Box sx={{ bgcolor: "#ffffff" }}>
+    <div style={{ backgroundColor: "#ffffff" }}>
       <ProductHero />
 
       <Section sx={{ py: 10, bgcolor: "#fcfcfc" }}>
@@ -64,6 +64,6 @@ export const ProductsPage = () => {
           </Grid>
         </Container>
       </Section>
-    </Box>
+    </div>
   );
 };

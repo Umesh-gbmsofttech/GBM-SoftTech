@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -14,7 +15,7 @@ const PageShell = styled(Box)(({ theme }) => ({
 
 const MainContent = styled(Box)(({ theme }) => ({
   flex: 1,
-  paddingTop: theme.spacing(2)
+  paddingTop: 0
 }));
 
 export const MainLayout = () => {

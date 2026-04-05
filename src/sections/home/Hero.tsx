@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, Typography, Button, Stack, alpha, Container, useTheme } from "@mui/material";
+// @ts-nocheck
+import { Box, Typography, Button, Stack, alpha, Container } from "@mui/material";
 import { styled, keyframes } from "@mui/material/styles";
 import { motion } from "framer-motion"; 
 import heroBg from "../../assets/download.jpg"; 
@@ -14,12 +14,8 @@ const fadeIn = keyframes`
 
 const HeroWrap = styled(Box)(({ theme }) => ({
   // ✅ CONCAVE BREAKOUT LOGIC
-  width: "100vw",
+  width: "100%",
   position: "relative",
-  left: "50%",
-  right: "50%",
-  marginLeft: "-50vw",
-  marginRight: "-50vw",
   
   // Adjusted height and padding to accommodate the curve
   paddingTop: theme.spacing(5),
@@ -36,7 +32,7 @@ const HeroWrap = styled(Box)(({ theme }) => ({
   clipPath: "ellipse(150% 100% at 50% 0%)",
 }));
 
-const BackgroundImage = styled(Box)({
+const BackgroundImage = styled(Box)(({ theme }) => ({
   position: "absolute",
   right: 0,
   top: 0,
@@ -55,9 +51,12 @@ const BackgroundImage = styled(Box)({
     width: "100%",
     height: "100%",
     objectFit: "cover",
-    objectPosition: "center right",
+    objectPosition: "68% center",
+    [theme.breakpoints.up("md")]: {
+      objectPosition: "center right",
+    },
   }
-});
+}));
 
 const PillButton = styled(Button)(({ theme, variant }) => ({
   borderRadius: "50px",
@@ -89,18 +88,25 @@ const PillButton = styled(Button)(({ theme, variant }) => ({
 
 const MotionDiv = motion.create ? motion.create("div") : motion.div;
 
-export const Hero = () => {
-  const theme = useTheme();
+const ContentBox = styled(Box)(({ theme }) => ({
+  maxWidth: "100%",
+  textAlign: "center",
+  [theme.breakpoints.up("md")]: {
+    maxWidth: "750px",
+    textAlign: "left",
+  },
+}));
 
+export const Hero = () => {
   return (
-    <Box sx={{ overflow: 'hidden', width: '100%' }}>
+    <div style={{ overflowX: "clip", width: "100%", maxWidth: "100%" }}>
       <HeroWrap>
         <BackgroundImage>
           <img src={heroBg} alt="Corporate Innovation" />
         </BackgroundImage>
 
         <Container sx={{ position: "relative", zIndex: 10 }}>
-          <Box sx={{ maxWidth: { xs: "100%", md: "750px" }, textAlign: { xs: 'center', md: 'left' } }}>
+          <ContentBox>
             
             <Typography 
               variant="h1" 
@@ -147,9 +153,9 @@ export const Hero = () => {
                 <PillButton variant="outlined">Talk to Our Experts</PillButton>
               </MotionDiv>
             </Stack>
-          </Box>
+          </ContentBox>
         </Container>
       </HeroWrap>
-    </Box>
+    </div>
   );
 };

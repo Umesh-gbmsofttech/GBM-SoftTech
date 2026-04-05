@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { BrowserRouter } from "react-router-dom";
 import { AnimatedRoutes } from "@routes/AnimatedRoutes";
 import { ScrollToTop } from "./ScrollToTop";

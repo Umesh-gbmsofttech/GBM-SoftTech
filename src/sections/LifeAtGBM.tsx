@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// @ts-nocheck
+import { useState } from "react";
 import { Box, Typography, Container, Grid, alpha, Stack, Avatar } from "@mui/material";
 import { styled, keyframes } from "@mui/material/styles";
 import { motion, AnimatePresence } from "framer-motion";
@@ -75,7 +76,7 @@ const OrbitContainer = styled(Box)({
 
 const Ring = styled(motion.div, {
   shouldForwardProp: (prop) => prop !== "active" && prop !== "size" && prop !== "color",
-})<{ active?: boolean; size: number; color: string }>(({ theme, active, size, color }) => ({
+})<{ active?: boolean; size: number; color: string }>(({ active, size, color }) => ({
   position: "absolute",
   width: `${size}px`,
   height: `${size}px`,

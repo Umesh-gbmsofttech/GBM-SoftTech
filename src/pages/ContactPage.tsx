@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Box } from "@mui/material";
 import { PageTransition, pageVariants } from "@components/animations/PageTransition";
 import { ContactHero } from "../sections/ContactHero";

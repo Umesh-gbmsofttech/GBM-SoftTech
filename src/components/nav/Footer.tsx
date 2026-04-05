@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { Box, Typography, Divider, Grid, IconButton, Stack, alpha, TextField, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";

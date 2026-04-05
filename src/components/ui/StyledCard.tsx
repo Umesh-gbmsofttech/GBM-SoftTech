@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Card, Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 

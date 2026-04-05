@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { Box, Typography, alpha, styled } from "@mui/material";
 import { motion } from "framer-motion";

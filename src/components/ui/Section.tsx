@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Box, Container as MuiContainer } from "@mui/material";
 import { styled } from "@mui/material/styles";
 

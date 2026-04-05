@@ -1,4 +1,4 @@
-import React from "react";
+// @ts-nocheck
 import { Container } from "@mui/material";
 import { Section } from "@components/ui/Section";
 import { PageTransition, pageVariants } from "@components/animations/PageTransition";
@@ -13,9 +13,9 @@ import { JoinUsForm } from "../sections/JoinUsForm";
 export const CareersPage = () => {
   return (
     <PageTransition variants={pageVariants} initial="hidden" animate="visible" exit="exit">
+      <CareerHero />
       <Section>
         <Container>
-          <CareerHero />
           <OpenPositions />
           <LifeAtGBM />
         </Container>

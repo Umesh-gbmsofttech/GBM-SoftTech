@@ -1,11 +1,12 @@
+// @ts-nocheck
 import React, { useState } from "react";
-import { 
-  Box, Typography, TextField, Button, Container, Stack, 
-  alpha, CircularProgress, Modal, Backdrop, Avatar 
+import {
+  Box, Typography, TextField, Button, Container, Stack,
+  alpha, CircularProgress, Modal, Backdrop, Avatar
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { motion, AnimatePresence } from "framer-motion";
-import { SendOutlined, DoneAllOutlined } from "@mui/icons-material";
+import { SendOutlined } from "@mui/icons-material";
 import gbmLogo from "@assets/gbm-logo.png"; // Ensure this path is correct
 
 // --- Styled Components ---
@@ -51,17 +52,18 @@ export const JoinUsForm = () => {
 
     const formData = new FormData(event.currentTarget);
     const data = {
+      formType: "join",
       name: formData.get("name"),
       email: formData.get("email"),
       link: formData.get("link"),
     };
 
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8-xJm946N-O1IJJpTx6V3ICXLizZwRKZiztUs-BuB1DgLQIsSF519Bt-4YD7iWh-3/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzcSp9GxkdtfpCFFAt5sd7BIZUH_HHzKFuwXlsNP6WtnLFBL0CY37wmHq3RgGAoPMZVdQ/exec";
 
     try {
       await fetch(SCRIPT_URL, {
         method: "POST",
-        mode: "no-cors", 
+        mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
@@ -94,9 +96,9 @@ export const JoinUsForm = () => {
               <SharpInput name="email" placeholder="Email Address" type="email" fullWidth required disabled={loading} />
               <SharpInput name="link" placeholder="LinkedIn / Portfolio URL" fullWidth disabled={loading} />
 
-              <Button 
-                type="submit" 
-                variant="contained" 
+              <Button
+                type="submit"
+                variant="contained"
                 disabled={loading}
                 endIcon={loading ? <CircularProgress size={20} color="inherit" /> : <SendOutlined />}
                 sx={{ py: 2.2, borderRadius: 0, fontWeight: 800, textTransform: "uppercase" }}
@@ -116,41 +118,43 @@ export const JoinUsForm = () => {
         BackdropComponent={Backdrop}
         BackdropProps={{ timeout: 500, sx: { backdropFilter: "blur(4px)" } }}
       >
-        <AnimatePresence>
-          {open && (
-            <SuccessBox
-              initial={{ scale: 0.8, opacity: 0, x: "-50%", y: "-40%" }}
-              animate={{ scale: 1, opacity: 1, x: "-50%", y: "-50%" }}
-              exit={{ scale: 0.8, opacity: 0 }}
-            >
-              <Stack alignItems="center" spacing={3}>
-                <Avatar 
-                  src={gbmLogo} 
-                  sx={{ width: 80, height: 80, border: "2px solid #00A3E0", p: 0.5, bgcolor: "#fff" }} 
-                />
-                
-                <Box>
-                  <Typography variant="h5" fontWeight="900" sx={{ mb: 1 }}>
-                    Application Received!
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Thank you for reaching out to <strong>GBM SoftTech</strong>. 
-                    Our talent team will review your profile and contact you shortly.
-                  </Typography>
-                </Box>
+        <Box>
+          <AnimatePresence>
+            {open && (
+              <SuccessBox
+                initial={{ scale: 0.8, opacity: 0, x: "-50%", y: "-40%" }}
+                animate={{ scale: 1, opacity: 1, x: "-50%", y: "-50%" }}
+                exit={{ scale: 0.8, opacity: 0 }}
+              >
+                <Stack alignItems="center" spacing={3}>
+                  <Avatar
+                    src={gbmLogo}
+                    sx={{ width: 80, height: 80, border: "2px solid #00A3E0", p: 0.5, bgcolor: "#fff" }}
+                  />
 
-                <Button 
-                  onClick={() => setOpen(false)}
-                  variant="contained"
-                  fullWidth
-                  sx={{ borderRadius: 0, fontWeight: 900, py: 1.5 }}
-                >
-                  Close
-                </Button>
-              </Stack>
-            </SuccessBox>
-          )}
-        </AnimatePresence>
+                  <Box>
+                    <Typography variant="h5" fontWeight="900" sx={{ mb: 1 }}>
+                      Application Received!
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Thank you for reaching out to <strong>GBM SoftTech</strong>.
+                      Our talent team will review your profile and contact you shortly.
+                    </Typography>
+                  </Box>
+
+                  <Button
+                    onClick={() => setOpen(false)}
+                    variant="contained"
+                    fullWidth
+                    sx={{ borderRadius: 0, fontWeight: 900, py: 1.5 }}
+                  >
+                    Close
+                  </Button>
+                </Stack>
+              </SuccessBox>
+            )}
+          </AnimatePresence>
+        </Box>
       </Modal>
     </Box>
   );

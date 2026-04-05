@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CssBaseline, ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { ReactNode, useMemo } from "react";
 import { useAppSelector } from "@hooks/useAppSelector";

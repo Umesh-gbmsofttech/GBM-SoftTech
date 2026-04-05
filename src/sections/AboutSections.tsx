@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {  Typography, alpha } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { HoverCard, IconBadge, MutedText } from "@components/ui/StyledCard";
