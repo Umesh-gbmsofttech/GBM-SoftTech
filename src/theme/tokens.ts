@@ -3,8 +3,8 @@ import { PaletteMode } from "@mui/material";
 export const brand = {
   ink: "#0b1023",
   cloud: "#f7f8fc",
-  ocean: "#8a9fec",
-  sky: "#5ad2ff",
+  ocean: "#024aa8",
+  sky: "#024aa8",
   ember: "#024aa8",
   moss: "#20c997",
   stone: "#6b7280",
@@ -19,7 +19,7 @@ export const getDesignTokens = (mode: PaletteMode) => ({
       contrastText: mode === "light" ? "#ffffff" : brand.ink
     },
     secondary: {
-      main: brand.ember
+      main: brand.ocean
     },
     background: {
       default: mode === "light" ? brand.cloud : brand.midnight,

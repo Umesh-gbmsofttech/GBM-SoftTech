@@ -33,7 +33,7 @@ const ImageContainer = styled(motion.div)<HTMLMotionProps<"div">>(() => ({
   boxShadow: `60px 60px 0px ${alpha("#001e29", 0.02)}`, 
   "& img": {
     width: "100%",
-    height: "115%", // Extra height for parallax travel
+    height: "115%", 
     objectFit: "cover",
   }
 }));
@@ -107,7 +107,7 @@ export const About: React.FC = () => {
               >
                 <TrendingUp sx={{ color: "primary.main", fontSize: "2.5rem" }} />
                 <Box>
-                  <Typography variant="h4" sx={{ fontWeight: 900, lineHeight: 1 }}>98%</Typography>
+                  <Typography variant="h4" sx={{ fontWeight: 700, lineHeight: 1 ,color:"#fff"}}>98%</Typography>
                   <Typography variant="caption" sx={{ opacity: 0.5, textTransform: "uppercase", letterSpacing: 3, fontWeight: 700 }}>
                     Client Trust
                   </Typography>
@@ -125,14 +125,14 @@ export const About: React.FC = () => {
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <Typography variant="overline" sx={{ color: "primary.main", fontWeight: 900, letterSpacing: 8, display: "block", mb: 2 }}>
+                <Typography variant="overline" sx={{ color: "#1457e7", fontWeight: 900, letterSpacing: 8, display: "block", mb: 2 }}>
                   OUR PHILOSOPHY
                 </Typography>
                 
-                <Typography variant="h2" sx={{ fontWeight: 900, mb: 4, lineHeight: 1.1, color: "#001e29", fontSize: { md: "3.8rem" } }}>
+                <Typography variant="h2" sx={{ fontWeight: 900, mb: 4, lineHeight: 1.1, color: "#001e29", fontSize: { xs: '2.5rem', md: '3.8rem' } }}>
                   Where Human <br />
                   Touch Meets <br />
-                  <Box component="span" sx={{ color: alpha("#001e29", 0.1) }}>Innovation.</Box>
+                  <Box component="span" sx={{ color: alpha("#001e29", 0.5) }}>Innovation.</Box>
                 </Typography>
 
                 <Typography sx={{ color: alpha("#001e29", 0.6), fontSize: "1.15rem", lineHeight: 1.9, mb: 4 }}>
@@ -182,7 +182,7 @@ export const About: React.FC = () => {
                     borderColor: "#001e29",
                     px: 8, 
                     py: 2.5, 
-                    borderRadius: "0px",
+                    borderRadius: "50px",
                     fontWeight: 900,
                     letterSpacing: 4,
                     transition: "all 0.4s",

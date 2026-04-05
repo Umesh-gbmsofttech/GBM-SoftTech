@@ -55,7 +55,7 @@ export const Process: React.FC = () => {
           <svg width="100%" height="100" viewBox="0 0 1200 100" fill="none">
             <motion.path
               d="M0 50 C 150 50, 300 10, 450 50 C 600 90, 750 50, 900 10 C 1050 50, 1200 50, 1350 50"
-              stroke="#eb8b25"
+              stroke="#024aa8"
               strokeWidth="2"
               strokeDasharray="10 10"
               style={{ pathLength }}
@@ -76,7 +76,7 @@ export const Process: React.FC = () => {
               THE GBM WAY
             </Typography>
             <Typography variant="h2" sx={{ fontWeight: 900, color: '#001e29', letterSpacing: '-0.02em', fontSize: { xs: '2.5rem', md: '3.5rem' } }}>
-              Our Execution <Box component="span" sx={{ color: '#25a2eb' }}>Process</Box>
+              Our Execution <Box component="span" sx={{ color: '#024aa8' }}>Process</Box>
             </Typography>
           </motion.div>
         </Box>

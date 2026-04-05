@@ -2,39 +2,31 @@ import React from "react";
 import { Box, Typography, Button, Stack, useTheme, alpha } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { motion } from "framer-motion";
-import { Container } from "@components/ui/Section";
-import { MutedText } from "@components/ui/StyledCard";
+import { Container } from "@mui/material"; // Standard MUI Container or your custom UI component
 
 // --- STYLED COMPONENTS ---
 
 const HeroWrapper = styled(Box)(({ theme }) => ({
-  // ✅ THEME: Full-width breakout logic
   width: "100vw",
   position: "relative",
   left: "50%",
   right: "50%",
   marginLeft: "-50vw",
   marginRight: "-50vw", 
-  
-  // ✅ THEME: Balanced padding for the concave curve
   paddingTop: theme.spacing(22),
   paddingBottom: theme.spacing(28),
-  
   display: "flex",
   alignItems: "center",
   overflow: "hidden",
-  
-  // ✅ THEME: Deep Navy Brand Colors (#001e29) instead of the blue/secondary gradient
+  // Brand Deep Navy with Overlay
   background: `linear-gradient(150deg, ${alpha("#001e29", 0.95)} 0%, ${alpha("#001e29", 0.85)} 100%), 
                url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=1600')`,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundAttachment: 'fixed', 
-  
   textAlign: "center",
   color: "#fff",
-
-  // ✅ THEME: The Concave (Inner Curve) Effect
+  // The Signature Concave Effect
   clipPath: "ellipse(150% 100% at 50% 0%)",
 }));
 
@@ -44,11 +36,11 @@ const ActionButton = styled(Button)(({ theme, variant }) => ({
   fontWeight: 900,
   textTransform: "none",
   fontSize: "1.1rem",
-  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+  transition: "all(0.3s cubic-bezier(0.4, 0, 0.2, 1))",
   
   ...(variant === "contained" && {
-    backgroundColor: "#fff", // White background per theme
-    color: "#001e29",       // Navy text per theme
+    backgroundColor: "#fff", 
+    color: "#001e29",
     "&:hover": {
       backgroundColor: alpha("#fff", 0.9),
       transform: "translateY(-3px)",
@@ -69,10 +61,7 @@ const ActionButton = styled(Button)(({ theme, variant }) => ({
   }),
 }));
 
-// Safe Motion Component
 const MotionStack = motion.create ? motion.create(Stack) : motion(Stack);
-
-// --- MAIN COMPONENT ---
 
 export const ServicesHero = () => {
   const theme = useTheme();
@@ -89,7 +78,6 @@ export const ServicesHero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            
             {/* Tagline */}
             <Typography 
               variant="overline" 
@@ -115,33 +103,25 @@ export const ServicesHero = () => {
               <Box component="span" sx={{ color: alpha('#fff', 0.6) }}>Your Business</Box>
             </Typography>
 
-            {/* Subtext */}
+            {/* Added: Supporting Description */}
             <Typography 
-              variant="h6" 
+              variant="body1" 
               sx={{ 
-                fontWeight: 400, 
-                lineHeight: 1.8, 
-                color: alpha('#fff', 0.9),
-                maxWidth: 700
+                fontSize: "1.2rem", 
+                color: alpha("#fff", 0.7), 
+                maxWidth: 600, 
+                lineHeight: 1.6 
               }}
             >
-              Since our establishment, we have been delivering high-quality and sustainable 
-              software solutions for corporate business purposes across the globe.
+              Empowering your digital journey with scalable engineering, 
+              UI/UX precision, and enterprise-grade infrastructure.
             </Typography>
 
-            {/* Buttons */}
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={2} justifyContent="center" sx={{ pt: 2 }}>
-              <ActionButton variant="contained">
-                Learn More
-              </ActionButton>
-
-              <ActionButton variant="outlined">
-                Get in Touch
-              </ActionButton>
-            </Stack>
+        
+            
           </MotionStack>
         </Container>
       </HeroWrapper>
     </Box>
   );
-};  
+};

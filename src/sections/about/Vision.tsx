@@ -57,8 +57,8 @@ export const Vision: React.FC = () => {
               backgroundSize: 'cover',
               backgroundPosition: 'center'
             }}>
-              <Typography variant="h3" sx={{ fontWeight: 900, mb: 2, lineHeight: 1.2 }}>
-                Our Roadmap Makes You <br /> More Comfortable in Digital Transformation
+              <Typography variant="h3" sx={{ fontWeight: 600, mb: 1, lineHeight: 1.0,color:'#989595' }}>
+                Our Roadmap Makes You More Comfortable<br /> in Digital Transformation
               </Typography>
               <Typography sx={{ opacity: 0.9, mb: 4, maxWidth: '90%', fontSize: '1.1rem' }}>
                 We simplify complex technology so you can focus on growth. From cloud migration to custom software, GBM SoftTech ensures a seamless transition.
@@ -73,7 +73,7 @@ export const Vision: React.FC = () => {
                   fontWeight: 800,
                   color:'#FFf',
                   textTransform: 'none',
-                  '&:hover': { bgcolor: 'theme.palette.primary.main' }
+                  '&:hover': { bgcolor: '#2747ca' }
                 }}
               >
                 Start Your Project

@@ -9,7 +9,7 @@ import careerVideo from "../assets/animation.mp4";
 
 const HeroWrapper = styled(Box)(({ theme }) => ({
   // RESTORED EXACT ORIGINAL STYLING
-  width: "132.7%",
+  width: "161.7%",
   margin: -150,
   padding: 0,
   paddingTop: theme.spacing(20),
