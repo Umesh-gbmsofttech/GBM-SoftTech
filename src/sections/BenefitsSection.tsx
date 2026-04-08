@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from "react";
-import { Box, Typography, Container, alpha, Stack } from "@mui/material";
+import { Box, Typography, Container, alpha, Stack, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { motion } from "framer-motion";
 import { 
@@ -11,64 +11,55 @@ import {
   LaptopMacOutlined 
 } from "@mui/icons-material";
 
-// --- Styled Components ---
+const BRAND_BLUE = "#00A3E0";
 
 const SectionWrapper = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(12, 0),
-  // Soft, friendly light-blue/grey background
-  backgroundColor: "#F8FAFC", 
-  overflow: "hidden",
+  padding: theme.spacing(12, 0), 
+  backgroundColor: "#FFFFFF", 
+  overflow: "hidden", 
   position: "relative",
+  backgroundImage: `radial-gradient(${alpha('#CBD5E1', 0.2)} 1px, transparent 1px)`,
+  backgroundSize: '30px 30px',
 }));
 
 const CardStackContainer = styled(Box)({
   display: "flex",
-  justifyContent: "center",
+  justifyContent: "center", 
   alignItems: "center",
-  perspective: "1500px",
-  height: "500px",
-  width: "100%",
+  height: "550px",
+  width: "100%", // Takes full width of the lg=8.5 grid
   position: "relative",
+  perspective: "1500px",
 });
 
 const BenefitCard = styled(motion.div, {
   shouldForwardProp: (prop) => prop !== "active"
-})<{ active: boolean }>(({ theme, active }) => ({
+})(({ theme, active }) => ({
   position: "absolute",
-  width: "280px",
+  // This centering logic ensures the "fan" starts from the dead center of the box
+  left: "50%",
+  marginLeft: "-140px", 
+  width: "280px", 
   height: "400px",
-  // Clean White Card
-  backgroundColor: "#FFFFFF",
-  color: active ? theme.palette.primary.main : theme.palette.text.primary,
-  padding: theme.spacing(4),
+  backgroundColor: "#fff",
   display: "flex",
   flexDirection: "column",
-  borderRadius: 0, // Strictly Sharp as per your brand
+  borderRadius: "0px", 
   cursor: "pointer",
-  zIndex: active ? 50 : 1,
-  // High-end, soft shadow instead of a "glow"
+  zIndex: active ? 100 : 1,
+  border: `1px solid ${active ? BRAND_BLUE : "#E2E8F0"}`,
   boxShadow: active 
-    ? `0 30px 60px ${alpha(theme.palette.common.black, 0.1)}` 
-    : `0 4px 20px ${alpha(theme.palette.common.black, 0.03)}`,
-  border: `1px solid ${active ? theme.palette.primary.main : alpha(theme.palette.divider, 0.1)}`,
-  transition: "border 0.4s ease",
+    ? `0 40px 80px -15px ${alpha('#000', 0.15)}` 
+    : `0 10px 25px -10px ${alpha('#000', 0.05)}`,
+  overflow: "hidden",
 }));
-
-const CardNumber = styled(Typography)(({ theme }) => ({
-  fontSize: "0.8rem",
-  fontWeight: 900,
-  color: alpha(theme.palette.text.secondary, 0.3),
-  marginBottom: theme.spacing(2),
-}));
-
-// --- Data ---
 
 const perks = [
-  { id: 0, title: "Global Pay", icon: <PaymentsOutlined />, desc: "Top-tier base pay with performance bonuses and localized equity options." },
-  { id: 1, title: "Hybrid Life", icon: <HomeWorkOutlined />, desc: "Choose your workspace. We prioritize high-impact output over clock-in times." },
-  { id: 2, title: "Family Care", icon: <LocalHospitalOutlined />, desc: "Comprehensive medical suite for you and your family with mental health support." },
-  { id: 3, title: "Growth Fund", icon: <SchoolOutlined />, desc: "Annual $1,000 budget for global certifications and international workshops." },
-  { id: 4, title: "Elite Tech", icon: <LaptopMacOutlined />, desc: "A custom-specced MacBook Pro or workstation delivered to your doorstep." },
+  { id: 0, title: "Global Pay", img: "https://images.unsplash.com/photo-1554224155-1696413565d3?q=80&w=600", icon: <PaymentsOutlined />, desc: "Top-tier base salaries adjusted for global markets with equity potential." },
+  { id: 1, title: "Hybrid Life", img: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=600", icon: <HomeWorkOutlined />, desc: "Our culture is built on trust. Work from where you are most productive." },
+  { id: 2, title: "Family Care", img: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=600", icon: <LocalHospitalOutlined />, desc: "Premium health insurance for you and your dependents from day one." },
+  { id: 3, title: "Growth Fund", img: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=600", icon: <SchoolOutlined />, desc: "Stipends for certifications, books, and international tech summits." },
+  { id: 4, title: "Elite Tech", img: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=600", icon: <LaptopMacOutlined />, desc: "Standard-issue M3 MacBook Pros and high-end peripheral support." },
 ];
 
 export const BenefitsSection = () => {
@@ -76,106 +67,109 @@ export const BenefitsSection = () => {
 
   return (
     <SectionWrapper>
-      {/* Soft Decorative Background Blur */}
-      <Box sx={{ 
-        position: "absolute", top: "20%", left: "10%", 
-        width: "400px", height: "400px", 
-        background: (theme) => `radial-gradient(circle, ${alpha(theme.palette.primary.main, 0.04)} 0%, transparent 70%)`,
-        pointerEvents: "none"
-      }} />
+      <Container maxWidth="xl">
+        <Grid container spacing={0} alignItems="center">
+          
+          <Grid item xs={12} lg={3.5}>
+            <Stack spacing={2} sx={{ textAlign: { xs: 'center', lg: 'left' }, pl: { lg: 4 }, pr: { lg: 2 } }}>
+              <Typography variant="overline" sx={{ color: BRAND_BLUE, fontWeight: 950, letterSpacing: 3 }}>
+                ECOSYSTEM
+              </Typography>
+              <Typography variant="h2" sx={{ fontWeight: 950, color: "#0F172A", lineHeight: 1.1, letterSpacing: -2, fontSize: { xs: '2.5rem', lg: '3.2rem' } }}>
+                The <span style={{ color: BRAND_BLUE }}>Standard</span> <br />
+                of Engineering.
+              </Typography>
+              <Typography variant="body1" sx={{ color: "#64748B", mt: 2, fontSize: "1.1rem" }}>
+                We provide a modern ecosystem so you can focus on building the future.
+              </Typography>
+            </Stack>
+          </Grid>
 
-      <Container>
-        <Stack spacing={1} sx={{ mb: 8, textAlign: "center", alignItems: "center" }}>
-          <Typography variant="overline" sx={{ color: "primary.main", fontWeight: 800, letterSpacing: 2 }}>
-            PERKS & BENEFITS
-          </Typography>
-          <Typography variant="h3" fontWeight="900" sx={{ letterSpacing: -1.5 }}>
-            Designed for <span style={{ color: "#00A3E0" }}>Your Success</span>
-          </Typography>
-          <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 500 }}>
-            We provide the infrastructure so you can focus on building the future.
-          </Typography>
-        </Stack>
+          <Grid item xs={12} lg={8.5}>
+            <CardStackContainer>
+              {perks.map((perk, index) => {
+                const isHovered = hoveredIndex === index;
+                const total = perks.length;
+                const midPoint = (total - 1) / 2;
+                
+                // MATH: 190px is the safe limit to keep the 5th card inside the lg=8.5 box
+                const xOffset = hoveredIndex === null 
+                  ? (index - midPoint) * 45 
+                  : (index - midPoint) * 190; 
 
-        <CardStackContainer>
-          {perks.map((perk, index) => {
-            const isHovered = hoveredIndex === index;
-            const total = perks.length;
-            const mid = (total - 1) / 2;
-            
-            // MATH: Slower, more "friendly" spread
-            const xOffset = hoveredIndex === null 
-              ? (index - mid) * 40  
-              : (index - hoveredIndex) * 290; 
+                const zRotation = hoveredIndex === null ? (index - midPoint) * 2 : 0;
 
-            // MATH: Subtle rotation for that "Fan" look
-            const rotation = hoveredIndex === null ? (index - mid) * 5 : 0;
-
-            return (
-              <BenefitCard
-                key={perk.id}
-                active={isHovered}
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
-                animate={{
-                  x: xOffset,
-                  rotateZ: rotation,
-                  scale: isHovered ? 1.05 : 0.95,
-                  // Dim non-hovered cards gently (0.4 instead of invisible)
-                  opacity: hoveredIndex === null || isHovered ? 1 : 0.5,
-                  y: isHovered ? -20 : 0
-                }}
-                // SPEED CHECK: Slower stiffness (100) and higher damping (30) makes it "silk-smooth"
-                transition={{ 
-                  type: "spring", 
-                  stiffness: 100, 
-                  damping: 25, 
-                  mass: 1 
-                }}
-              >
-                <Box>
-                  <CardNumber>0{index + 1}</CardNumber>
-                  <Box sx={{ color: isHovered ? "primary.main" : "text.secondary", mb: 2, transition: "0.3s" }}>
-                    {React.cloneElement(perk.icon as React.ReactElement, { sx: { fontSize: 32 } })}
-                  </Box>
-                  <Typography variant="h5" fontWeight="900" color="text.primary" sx={{ letterSpacing: -0.5 }}>
-                    {perk.title}
-                  </Typography>
-                </Box>
-
-                <Box sx={{ mt: 'auto' }}>
-                  <Typography 
-                    variant="body2" 
-                    color="text.secondary"
-                    sx={{ 
-                      opacity: isHovered ? 1 : 0, 
-                      transition: "0.4s", 
-                      fontSize: "0.9rem",
-                      lineHeight: 1.6,
-                      // Prevents text from being "selectable" when hidden
-                      visibility: isHovered ? 'visible' : 'hidden' 
+                return (
+                  <BenefitCard
+                    key={perk.id}
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                    initial={{ opacity: 0, x: 0, y: 30 }}
+                    whileInView={{ 
+                      opacity: 1, 
+                      y: 0,
+                      transition: { 
+                        delay: index * 0.12, // SHOW ONE BY ONE EFFECT
+                        duration: 0.5 
+                      }
+                    }}
+                    viewport={{ once: true }}
+                    animate={{
+                      x: xOffset,
+                      rotateZ: zRotation,
+                      scale: isHovered ? 1.05 : 0.98,
+                      opacity: hoveredIndex === null || isHovered ? 1 : 0.4,
+                      y: isHovered ? -40 : 0,
+                      zIndex: isHovered ? 100 : 10 + index
+                    }}
+                    transition={{ 
+                      type: "spring", 
+                      stiffness: 100, 
+                      damping: 20 
                     }}
                   >
-                    {perk.desc}
-                  </Typography>
-                  <Box sx={{ 
-                    width: isHovered ? "100%" : "0%", 
-                    height: "3px", 
-                    bgcolor: "primary.main", 
-                    mt: 3,
-                    transition: "0.6s ease" 
-                  }} />
-                </Box>
-              </BenefitCard>
-            );
-          })}
-        </CardStackContainer>
+                    <Box sx={{ width: "100%", height: "160px", overflow: "hidden", position: "relative" }}>
+                      <motion.img 
+                        src={perk.img} 
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        animate={{ scale: isHovered ? 1.1 : 1 }}
+                        transition={{ duration: 0.4 }}
+                      />
+                      <Box sx={{ position: "absolute", bottom: 0, left: 0, p: 1.2, bgcolor: BRAND_BLUE, color: "#fff" }}>
+                        {React.cloneElement(perk.icon as React.ReactElement, { sx: { fontSize: 18 } })}
+                      </Box>
+                    </Box>
 
-        <Stack direction="row" justifyContent="center" sx={{ mt: 6 }}>
-           <Typography variant="caption" sx={{ fontWeight: 700, color: "text.disabled", letterSpacing: 1 }}>
-              EXPLORE OUR GLOBAL ECOSYSTEM 
-           </Typography>
-        </Stack>
+                    <Stack spacing={2} sx={{ p: 3, flexGrow: 1 }} justifyContent="space-between">
+                      <Box>
+                        <Typography variant="caption" sx={{ fontWeight: 900, color: BRAND_BLUE, letterSpacing: 1.5 }}>
+                          0{index + 1}
+                        </Typography>
+                        <Typography variant="h6" sx={{ fontWeight: 900, color: "#1E293B", mt: 0.5 }}>
+                          {perk.title}
+                        </Typography>
+                      </Box>
+
+                      <Box>
+                        <Typography variant="body2" sx={{ color: "#475569", lineHeight: 1.5, fontSize: "0.85rem" }}>
+                          {perk.desc}
+                        </Typography>
+                        <Box sx={{ 
+                          width: isHovered ? "100%" : "30px", 
+                          height: "3px", 
+                          bgcolor: BRAND_BLUE, 
+                          mt: 2,
+                          transition: "0.4s ease"
+                        }} />
+                      </Box>
+                    </Stack>
+                  </BenefitCard>
+                );
+              })}
+            </CardStackContainer>
+          </Grid>
+
+        </Grid>
       </Container>
     </SectionWrapper>
   );

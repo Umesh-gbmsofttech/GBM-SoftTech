@@ -1,6 +1,6 @@
 // @ts-nocheck
-import React, { useState, useEffect } from "react";
-import { Box, Typography, Stack, useTheme, alpha, Container, IconButton } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Typography, Stack, useTheme, alpha, Container, IconButton, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -8,213 +8,199 @@ import {
   SpeedOutlined, 
   SecurityOutlined, 
   GroupsOutlined,
-  CloseOutlined 
+  CloseOutlined,
+  ArrowForwardRounded,
+  BlurOnRounded
 } from "@mui/icons-material";
-
-const MotionBox = motion.create ? motion.create(Box) : motion.div;
 
 // --- STYLED COMPONENTS ---
 
 const SectionWrapper = styled(Box)(({ theme }) => ({
   padding: theme.spacing(15, 0),
-  backgroundColor: "#f8fafc",
+  backgroundColor: "#F8FAFC", 
   overflow: "hidden",
   position: "relative",
+  color: "#0F172A",
+  backgroundImage: `linear-gradient(#E2E8F0 1px, transparent 1px), linear-gradient(90deg, #E2E8F0 1px, transparent 1px)`,
+  backgroundSize: '100px 100px',
 }));
 
-const CardFanContainer = styled(Box)({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  perspective: "1200px",
-  height: "500px",
-  width: "100%",
+const CardWrapper = styled(motion.div)(({ theme }) => ({
   position: "relative",
-  marginTop: "50px",
-});
-
-const CoreCard = styled(motion.div, {
-  shouldForwardProp: (prop) => prop !== "isFocused"
-})<{ isFocused: boolean }>(({ theme }) => ({
-  position: "absolute",
-  width: "300px",
-  height: "420px",
-  backgroundColor: "#fff",
-  padding: theme.spacing(4),
-  borderRadius: "24px", // Matches your Core look but keeps the Benefit behavior
+  height: "440px",
+  borderRadius: "32px",
   cursor: "pointer",
   display: "flex",
   flexDirection: "column",
-  border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
-  boxShadow: "0 10px 30px rgba(0,0,0,0.05)",
+  padding: theme.spacing(5),
+  background: alpha("#fff", 0.7),
+  backdropFilter: "blur(20px)",
+  border: `1px solid ${alpha("#fff", 1)}`,
+  boxShadow: `0 10px 30px -10px ${alpha("#64748B", 0.1)}`,
+  overflow: "hidden",
+  zIndex: 1,
   "&:hover": {
-    borderColor: theme.palette.primary.main,
-  },
+    boxShadow: `0 30px 60px -12px ${alpha("#64748B", 0.25)}`,
+  }
 }));
 
-const IconWrapper = styled(Box)(({ theme }) => ({
-  width: "60px",
-  height: "60px",
-  borderRadius: "16px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  marginBottom: theme.spacing(3),
-  background: alpha(theme.palette.primary.main, 0.08),
-  color: theme.palette.primary.main,
-}));
+const BackgroundGlow = styled(motion.div)({
+  position: "absolute",
+  width: "600px",
+  height: "600px",
+  borderRadius: "50%",
+  filter: "blur(120px)",
+  zIndex: 0,
+  opacity: 0.4,
+});
 
 // --- DATA ---
 
 const coreValues = [
-  { id: 0, title: "Innovation First", icon: <PsychologyOutlined fontSize="large" />, desc: "We leverage cutting-edge AI and modern frameworks to build future-ready solutions that redefine industry standards." },
-  { id: 1, title: "High Performance", icon: <SpeedOutlined fontSize="large" />, desc: "Our engineered solutions are optimized for speed, scalability, and seamless UX across all devices and platforms." },
-  { id: 2, title: "Security & Trust", icon: <SecurityOutlined fontSize="large" />, desc: "Enterprise-grade security protocols are baked into every line of code we write, ensuring your data remains yours." },
-  { id: 3, title: "Collaborative Spirit", icon: <GroupsOutlined fontSize="large" />, desc: "We work as an extension of your team to ensure alignment with business goals and transparent communication." },
+  { id: 0, title: "Innovation First", icon: <PsychologyOutlined />, desc: "We leverage cutting-edge AI and modern frameworks to build future-ready solutions.", color: "#007FFF" },
+  { id: 1, title: "High Performance", icon: <SpeedOutlined />, desc: "Our engineered solutions are optimized for speed, scalability, and seamless UX.", color: "#007FFF" },
+  { id: 2, title: "Security & Trust", icon: <SecurityOutlined />, desc: "Enterprise-grade security protocols are baked into every line of code we write.", color: "#007FFF" },
+  { id: 3, title: "Collaborative Spirit", icon: <GroupsOutlined />, desc: "We work as an extension of your team to ensure alignment with business goals.", color: "#007FFF" },
 ];
 
-export const GbmCore = () => {
-  const theme = useTheme();
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [focusedId, setFocusedId] = useState<number | null>(null);
+const GbmCore = () => {
+  const [focusedId, setFocusedId] = useState(null);
 
-  // Auto-close focused card after 4 seconds
-  useEffect(() => {
-    if (focusedId !== null) {
-      const timer = setTimeout(() => setFocusedId(null), 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [focusedId]);
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    // We target the background glow inside the pseudo-element via CSS variables
+    e.currentTarget.style.setProperty("--mouse-x", `${x}px`);
+    e.currentTarget.style.setProperty("--mouse-y", `${y}px`);
+  };
 
   return (
-    <SectionWrapper>
-      <Container maxWidth="lg">
-        <Stack spacing={2} alignItems="center" sx={{ mb: 4, textAlign: "center" }}>
-          <Typography variant="h2" fontWeight="900" sx={{ fontSize: { xs: "2.2rem", md: "3.5rem" } }}>
-            The GBM <Box component="span" sx={{ color: theme.palette.primary.main }}>Core</Box>
+    <SectionWrapper id="gbm-core">
+      {/* Soft Ambient Colors */}
+      <BackgroundGlow 
+        animate={{ x: [-100, 100, -100], y: [-50, 50, -50] }} 
+        transition={{ duration: 25, repeat: Infinity }} 
+        style={{ top: "-10%", left: "0%", background: alpha("#007FFF", 0.3) }} 
+      />
+      <BackgroundGlow 
+        animate={{ x: [100, -100, 100], y: [50, -50, 50] }} 
+        transition={{ duration: 20, repeat: Infinity }} 
+        style={{ bottom: "0%", right: "0%", background: alpha("#6366F1", 0.2) }} 
+      />
+
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
+        <Stack spacing={2} alignItems="center" sx={{ mb: 12, textAlign: "center" }}>
+          <Box sx={{ 
+            display: 'flex', alignItems: 'center', gap: 1, px: 2, py: 0.5, 
+            borderRadius: "100px", bgcolor: "#fff", border: `1px solid ${alpha("#64748B", 0.1)}`, 
+            mb: 1, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' 
+          }}>
+            <BlurOnRounded sx={{ fontSize: 16, color: "#007FFF" }} />
+            <Typography variant="overline" sx={{ color: "#64748B", fontWeight: 800, letterSpacing: 2 }}>
+                CORE PRINCIPLES
+            </Typography>
+          </Box>
+          
+          <Typography variant="h2" sx={{ fontWeight: 900, fontSize: { xs: "2.5rem", md: "4rem" }, color: "#0F172A", letterSpacing: "-0.04em" }}>
+            The GBM <span style={{ color: "#007FFF" }}>Core</span>
+          </Typography>
+          <Typography variant="h6" sx={{ color: "#64748B", maxWidth: 600, fontWeight: 400, lineHeight: 1.6 }}>
+            Engineering excellence delivered through a foundation of trust and precision.
           </Typography>
         </Stack>
 
-        <CardFanContainer>
-          {coreValues.map((core, index) => {
-            const isHovered = hoveredIndex === index;
-            const total = coreValues.length;
-            const mid = (total - 1) / 2;
-
-            // ANIMATION MATH (Fan Logic)
-            // When not hovered: cards are stacked slightly overlapping
-            // When hovered: they spread out wide
-            const xOffset = hoveredIndex === null 
-              ? (index - mid) * 60 
-              : (index - hoveredIndex) * 320; 
-
-            const rotation = hoveredIndex === null ? (index - mid) * 8 : 0;
-
-            return (
-              <CoreCard
-                key={core.id}
-                isFocused={false}
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
+        <Grid container spacing={4}>
+          {coreValues.map((core, index) => (
+            <Grid item xs={12} sm={6} md={3} key={core.id}>
+              <CardWrapper
+                onMouseMove={handleMouseMove}
                 onClick={() => setFocusedId(core.id)}
-                animate={{
-                  x: xOffset,
-                  rotateZ: rotation,
-                  scale: isHovered ? 1.05 : 0.95,
-                  opacity: hoveredIndex === null || isHovered ? 1 : 0.6,
-                  y: isHovered ? -30 : 0,
-                  zIndex: isHovered ? 100 : index
-                }}
-                transition={{ type: "spring", stiffness: 120, damping: 20 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ y: -10 }}
               >
-                <IconWrapper>{core.icon}</IconWrapper>
-                <Typography variant="h5" fontWeight="800" sx={{ mb: 2 }}>{core.title}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {core.desc.substring(0, 100)}...
+                <Box sx={{ 
+                  width: 64, height: 64, borderRadius: "20px", 
+                  bgcolor: "#fff", border: `1px solid ${alpha(core.color, 0.1)}`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  color: core.color, mb: 5,
+                  boxShadow: `0 10px 20px -5px ${alpha(core.color, 0.2)}`
+                }}>
+                  {React.cloneElement(core.icon, { sx: { fontSize: 32 } })}
+                </Box>
+
+                <Typography variant="h5" sx={{ fontWeight: 800, mb: 2, color: "#0F172A" }}>
+                  {core.title}
                 </Typography>
                 
-                {/* Visual Indicator */}
-                <div style={{ marginTop: 'auto', paddingTop: "16px" }}>
-                    <Typography variant="caption" fontWeight="bold" color="primary">
-                        CLICK TO EXPAND
-                    </Typography>
-                </div>
-              </CoreCard>
-            );
-          })}
-        </CardFanContainer>
+                <Typography variant="body2" sx={{ color: "#64748B", lineHeight: 1.8, mb: 4, fontSize: '0.95rem' }}>
+                  {core.desc}
+                </Typography>
+
+                <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: "auto", color: "#007FFF" }}>
+                  <Typography variant="button" sx={{ fontWeight: 800, fontSize: "0.75rem", letterSpacing: 1 }}>Learn More</Typography>
+                  <ArrowForwardRounded sx={{ fontSize: 16 }} />
+                </Stack>
+                
+                <Box sx={{ position: "absolute", bottom: 0, left: 0, width: "100%", height: "4px", bgcolor: alpha(core.color, 0.6) }} />
+              </CardWrapper>
+            </Grid>
+          ))}
+        </Grid>
       </Container>
 
-      {/* --- FULL SCREEN FOCUS POPUP (Remains as requested) --- */}
+      {/* --- MODAL --- */}
       <AnimatePresence>
         {focusedId !== null && (
           <Box
             component={motion.div}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             sx={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 9999,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: alpha("#001e29", 0.95),
-              backdropFilter: "blur(15px)",
-              p: 3
+              position: "fixed", inset: 0, zIndex: 10000, display: "flex", alignItems: "center", justifyContent: "center",
+              backgroundColor: alpha("#0F172A", 0.4), backdropFilter: "blur(12px)", p: 3
             }}
             onClick={() => setFocusedId(null)}
           >
             {coreValues.filter(c => c.id === focusedId).map(core => (
-              <MotionBox
+              <Box
                 key={`focus-${core.id}`}
-                initial={{ scale: 0.5, opacity: 0, y: 100 }}
-                animate={{ scale: 1, opacity: 1, y: 0 }}
-                exit={{ scale: 0.5, opacity: 0, y: 100 }}
-                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                component={motion.div}
+                initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: 20 }}
                 onClick={(e) => e.stopPropagation()}
                 sx={{
-                  width: "100%",
-                  maxWidth: 600,
-                  backgroundColor: "#fff",
-                  borderRadius: "32px",
-                  p: { xs: 4, md: 8 },
-                  textAlign: "center",
-                  position: "relative",
-                  boxShadow: "0 40px 100px rgba(0,0,0,0.5)"
+                  width: "100%", maxWidth: 650, bgcolor: "#fff", borderRadius: "40px",
+                  p: { xs: 5, md: 8 }, position: "relative", boxShadow: "0 50px 100px -20px rgba(0,0,0,0.2)",
+                  textAlign: "center"
                 }}
               >
-                <IconButton 
-                  onClick={() => setFocusedId(null)}
-                  sx={{ position: "absolute", top: 20, right: 20 }}
-                >
+                <IconButton onClick={() => setFocusedId(null)} sx={{ position: "absolute", top: 24, right: 24, bgcolor: "#F8FAFC" }}>
                   <CloseOutlined />
                 </IconButton>
 
-                <div style={{ color: theme.palette.primary.main, marginBottom: "32px" }}>
-                    {React.cloneElement(core.icon as React.ReactElement, { sx: { fontSize: 80 } })}
-                </div>
-                
-                <Typography variant="h3" fontWeight="900" sx={{ mb: 3, color: "#001e29" }}>
-                  {core.title}
-                </Typography>
-                
-                <Typography variant="h6" sx={{ color: "text.secondary", lineHeight: 1.8, fontWeight: 400 }}>
-                  {core.desc}
-                </Typography>
+                <Box sx={{ 
+                  width: 100, height: 100, borderRadius: "30px", 
+                  bgcolor: alpha(core.color, 0.1), color: core.color, 
+                  display: "flex", alignItems: "center", justifyContent: "center", mx: "auto", mb: 4 
+                }}>
+                   {React.cloneElement(core.icon, { sx: { fontSize: 48 } })}
+                </Box>
 
-                {/* Progress Bar Timer */}
-                <div style={{ width: "100%", height: "6px", backgroundColor: "#eee", marginTop: "48px", borderRadius: "12px", overflow: "hidden" }}>
-                  <Box
-                    component={motion.div}
-                    initial={{ width: "0%" }}
-                    animate={{ width: "100%" }}
-                    transition={{ duration: 4, ease: "linear" }}
-                    sx={{ height: "100%", backgroundColor: theme.palette.primary.main }}
+                <Typography variant="h3" sx={{ fontWeight: 900, color: "#0F172A", mb: 2 }}>{core.title}</Typography>
+                <Typography variant="h6" sx={{ color: "#64748B", fontWeight: 400, lineHeight: 1.6 }}>{core.desc}</Typography>
+                
+                <Box sx={{ mt: 6, height: "4px", width: "100%", bgcolor: "#F1F5F9", borderRadius: 2, overflow: "hidden" }}>
+                  <motion.div 
+                    initial={{ x: "-100%" }} 
+                    animate={{ x: "0%" }} 
+                    transition={{ duration: 5, ease: "linear" }} 
+                    onAnimationComplete={() => setFocusedId(null)} 
+                    style={{ height: "100%", width: "100%", backgroundColor: core.color }} 
                   />
-                </div>
-              </MotionBox>
+                </Box>
+              </Box>
             ))}
           </Box>
         )}
@@ -222,3 +208,5 @@ export const GbmCore = () => {
     </SectionWrapper>
   );
 };
+
+export default GbmCore; // Ensure this matches your import in ServicesPage.tsx
