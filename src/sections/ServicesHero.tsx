@@ -1,107 +1,155 @@
 // @ts-nocheck
-import { Box, Typography, Button, Stack, alpha } from "@mui/material";
+import { useState } from "react";
+import { Box, Typography, alpha, Stack, useTheme, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Container } from "@components/ui/Section";
+import servicesVideo from "../assets/ani1.mp4"; 
+
+// --- STYLED COMPONENTS ---
 
 const HeroWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
   position: "relative",
   paddingTop: theme.spacing(22),
   paddingBottom: theme.spacing(28),
+  minHeight: "100vh",
   display: "flex",
   alignItems: "center",
   overflow: "hidden",
-  background: `linear-gradient(150deg, ${alpha("#001e29", 0.95)} 0%, ${alpha("#001e29", 0.85)} 100%),
+
+  // ✅ Fallback background (Visible after video or if video has already played)
+  background: `linear-gradient(150deg, ${alpha("#001e29", 0.85)} 0%, ${alpha("#001e29", 0.7)} 100%),
                url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=1600')`,
   backgroundSize: "cover",
   backgroundPosition: "center",
   backgroundAttachment: "fixed",
+  backdropFilter: "blur(10px)", 
+  
   textAlign: "center",
   color: "#fff",
   clipPath: "ellipse(150% 100% at 50% 0%)",
 }));
 
-const ActionButton = styled(Button)(({ variant }) => ({
-  borderRadius: "99px",
-  padding: "16px 42px",
-  fontWeight: 900,
-  textTransform: "none",
-  fontSize: "1.1rem",
-  transition: "all(0.3s cubic-bezier(0.4, 0, 0.2, 1))",
-  ...(variant === "contained" && {
-    backgroundColor: "#fff",
-    color: "#001e29",
-    "&:hover": {
-      backgroundColor: alpha("#fff", 0.9),
-      transform: "translateY(-3px)",
-      boxShadow: `0px 15px 30px ${alpha("#000", 0.3)}`,
-    },
-  }),
-  ...(variant === "outlined" && {
-    borderColor: "#fff",
-    color: "#fff",
-    borderWidth: "2px",
-    "&:hover": {
-      borderWidth: "2px",
-      borderColor: "#fff",
-      backgroundColor: alpha("#fff", 0.1),
-      transform: "translateY(-3px)",
-    },
-  }),
+const BackgroundVideo = styled("video")({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+  zIndex: 1,
+});
+
+const VideoOverlay = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  zIndex: 2,
+  background: `linear-gradient(135deg, ${alpha("#001e29", 0.4)} 0%, ${alpha("#001e29", 0.6)} 100%)`,
 }));
 
-const MotionStack = motion.create ? motion.create(Stack) : motion(Stack);
+const MotionContent = motion.create ? motion.create(Box) : motion.div;
 
 export const ServicesHero = () => {
+  const theme = useTheme();
+
+  // ✅ 1. Check if video has already played in this session
+  const [videoEnded, setVideoEnded] = useState(() => {
+    return sessionStorage.getItem("servicesVideoPlayed") === "true";
+  });
+
+  const handleVideoEnd = () => {
+    setVideoEnded(true);
+    // ✅ 2. Store flag in sessionStorage
+    sessionStorage.setItem("servicesVideoPlayed", "true");
+  };
+
   return (
-    <div style={{ overflowX: "clip", width: "100%", maxWidth: "100%" }}>
+    <Box sx={{ overflowX: "clip", width: "100%", position: "relative", bgcolor: "#f8fafc" }}>
+      
       <HeroWrapper component="section">
-        <Container>
-          <MotionStack
-            spacing={4}
-            alignItems="center"
-            sx={{ maxWidth: 850, mx: "auto" }}
+        {/* 1. BACKGROUND LAYERS (Video & Overlay) */}
+        <AnimatePresence mode="wait">
+          {!videoEnded && (
+            <motion.div
+              key="services-video-bg"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              style={{ position: "absolute", inset: 0, zIndex: 1 }}
+            >
+              <BackgroundVideo 
+                src={servicesVideo} 
+                autoPlay 
+                muted 
+                playsInline 
+                onEnded={handleVideoEnd} 
+              />
+              <VideoOverlay />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* 2. CONTENT LAYER (Visible immediately with video) */}
+        <Container sx={{ position: "relative", zIndex: 10 }}>
+          <MotionContent
+            sx={{ textAlign: "center" }}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <Typography variant="overline" fontWeight="900" sx={{ letterSpacing: 3, color: alpha("#fff", 0.8) }}>
-              AREAS WHAT WE SERVE
-            </Typography>
+            <Stack spacing={4} alignItems="center" sx={{ maxWidth: 850, mx: "auto" }}>
+              
+              <Typography 
+                variant="overline" 
+                fontWeight="900" 
+                sx={{ 
+                    letterSpacing: 3, 
+                    color: alpha("#fff", 0.8),
+                    textShadow: "0 2px 10px rgba(0,0,0,0.5)" 
+                }}
+              >
+                AREAS WHAT WE SERVE
+              </Typography>
 
-            <Typography
-              variant="h1"
-              fontWeight="900"
-              sx={{
-                fontSize: { xs: "3rem", md: "5rem" },
-                lineHeight: 1.1,
-                color: "#fff",
-                textTransform: "uppercase",
-                letterSpacing: "-0.02em",
-              }}
-            >
-              IT Solutions for <br />
-              <Box component="span" sx={{ color: alpha("#fff", 0.6) }}>
-                Your Business
-              </Box>
-            </Typography>
+              <Typography 
+                variant="h1" 
+                fontWeight="900" 
+                sx={{ 
+                    fontSize: { xs: "3rem", md: "5rem" }, 
+                    lineHeight: 1.1,
+                    textShadow: `0 10px 40px ${alpha("#000", 0.6)}`,
+                }}
+              >
+                IT Solutions for <br />
+                <Box component="span" sx={{ color: alpha("#fff", 0.5) }}>
+                  Your Business
+                </Box>
+              </Typography>
 
-            <Typography
-              variant="body1"
-              sx={{
-                fontSize: "1.2rem",
-                color: alpha("#fff", 0.7),
-                maxWidth: 600,
-                lineHeight: 1.6,
-              }}
-            >
-              Empowering your digital journey with scalable engineering, UI/UX precision, and
-              enterprise-grade infrastructure.
-            </Typography>
-          </MotionStack>
+              <Typography 
+                variant="body1" 
+                sx={{ 
+                    fontSize: "1.2rem", 
+                    color: alpha("#fff", 0.8), 
+                    maxWidth: 600,
+                    textShadow: "0 2px 10px rgba(0,0,0,0.4)" 
+                }}
+              >
+                Empowering your digital journey with scalable engineering and enterprise-grade infrastructure.
+              </Typography>
+
+              <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ pt: 2 }}>
+                 
+              </Stack>
+            </Stack>
+          </MotionContent>
         </Container>
       </HeroWrapper>
-    </div>
+    </Box>
   );
 };

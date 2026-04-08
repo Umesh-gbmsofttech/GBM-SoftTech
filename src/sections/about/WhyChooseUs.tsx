@@ -3,7 +3,6 @@ import React from 'react';
 import { Box, Container, Grid, Typography, Button, Stack, alpha } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { motion } from 'framer-motion';
-// Replace this path with the actual location of your About.jpg file
 import AboutImg from '../../assets/About.jpg'; 
 
 export const WhyChooseUs: React.FC = () => {

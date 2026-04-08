@@ -1,172 +1,188 @@
 // @ts-nocheck
-import { useState, useEffect } from "react";
-import { Box, Typography, alpha, Stack, Button } from "@mui/material";
+import { useState } from "react";
+import { Box, Typography, alpha, Stack, useTheme, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { motion, AnimatePresence } from "framer-motion";
-import { Container } from "@components/ui/Section";
-
-// --- Data ---
-const benefits = [
-  { text: "Launch Faster", color: "#fff" },
-  { text: "Scale Smoother", color: "#fff" },
-  { text: "Innovate Smarter", color: "#fff" }
-];
+import { Pill } from "@components/ui/StyledCard";
+import contactVideo from "../assets/ani1.mp4"; 
 
 // --- Styled Components ---
 
 const HeroWrapper = styled(Box)(({ theme }) => ({
-  // ✅ THEME: Full-width breakout logic
   width: "100%",
-  position: "relative",
-  
-  // ✅ THEME: Balanced padding for the concave curve
-  paddingTop: theme.spacing(22),
-  paddingBottom: theme.spacing(28),
-  
-  display: "flex",
-  alignItems: "center",
-  overflow: "hidden",
-  
-  // ✅ THEME: Deep Navy Brand Colors (#001e29)
-  background: `linear-gradient(150deg, ${alpha("#001e29", 0.95)} 0%, ${alpha("#001e29", 0.85)} 100%), 
+  margin: 0,
+  padding: 0,
+  paddingTop: theme.spacing(20),
+  paddingBottom: theme.spacing(35),
+  minHeight: "calc(100vh - 56px)",
+  // ✅ Fallback background image (Visible after video or if video has already played)
+  background: `linear-gradient(150deg, ${alpha("#001e29", 0.95)} 0%, ${alpha("#001e29", 0.85)} 100%),
                url('https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1600')`,
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  backgroundAttachment: 'fixed', 
-  
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  backgroundAttachment: "fixed",
   textAlign: "center",
   color: "#fff",
-
-  // ✅ THEME: The Concave (Inner Curve) Effect
+  position: "relative",
   clipPath: "ellipse(150% 100% at 50% 0%)",
+  overflow: "hidden",
+  [theme.breakpoints.up("sm")]: {
+    minHeight: "calc(100vh - 64px)",
+  },
 }));
 
-const ActionButton = styled(Button)(({ variant }) => ({
-  borderRadius: "99px",
-  padding: "16px 42px",
-  fontWeight: 900,
-  textTransform: "none",
-  fontSize: "1.1rem",
-  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-  
-  ...(variant === "contained" && {
-    backgroundColor: "#fff", // White background per theme
-    color: "#001e29",       // Navy text per theme
-    "&:hover": {
-      backgroundColor: alpha("#fff", 0.9),
-      transform: "translateY(-3px)",
-      boxShadow: `0px 15px 30px ${alpha("#000", 0.3)}`,
-    },
-  }),
-  
-  ...(variant === "outlined" && {
-    borderColor: "#fff",
-    color: "#fff",
-    borderWidth: "2px",
-    "&:hover": {
-      borderWidth: "2px",
-      borderColor: "#fff",
-      backgroundColor: alpha("#fff", 0.1),
-      transform: "translateY(-3px)",
-    },
-  }),
-}));
+const BackgroundVideo = styled("video")({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+  zIndex: 1,
+});
 
-// --- Main Component ---
+const VideoOverlay = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  zIndex: 2,
+  background: `linear-gradient(135deg, ${alpha("#001e29", 0.5)} 0%, ${alpha("#001e29", 0.7)} 100%)`,
+}));
 
 export const ContactHero = () => {
-  const [index, setIndex] = useState(0);
+  const theme = useTheme();
 
-  // SuccessFlip Loop Logic
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % benefits.length);
-    }, 2800);
-    return () => clearInterval(timer);
-  }, []);
+  // ✅ 1. Check if video has already played in this session
+  const [videoEnded, setVideoEnded] = useState(() => {
+    return sessionStorage.getItem("contactVideoPlayed") === "true";
+  });
+
+  const handleVideoEnd = () => {
+    setVideoEnded(true);
+    // ✅ 2. Store flag so it stays static for the rest of the session
+    sessionStorage.setItem("contactVideoPlayed", "true");
+  };
 
   return (
-    <Box sx={{ overflowX: 'clip', width: '100%', maxWidth: '100%' }}>
-      <HeroWrapper component="section">
-        <Container sx={{ position: "relative", zIndex: 10 }}>
-          <Stack spacing={4} alignItems="center" sx={{ maxWidth: 850, mx: 'auto' }}>
+    <HeroWrapper component="section">
+      
+      {/* 1. VIDEO BACKGROUND LAYER */}
+      <AnimatePresence mode="wait">
+        {!videoEnded && (
+          <motion.div
+            key="contact-video-bg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              zIndex: 1,
+            }}
+          >
+            <BackgroundVideo 
+              src={contactVideo} 
+              autoPlay 
+              muted 
+              playsInline 
+              onEnded={handleVideoEnd} 
+            />
+            <VideoOverlay />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 2. CONTENT LAYER (Visible immediately) */}
+      <Box 
+        sx={{ 
+          px: { xs: 2, md: 4 }, 
+          position: "relative", 
+          zIndex: 10,
+        }}
+      >
+        <Stack spacing={4} alignItems="center" sx={{ maxWidth: 850, mx: "auto" }}>
+          
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <Pill
+              sx={{
+                px: 3,
+                py: 1,
+                backgroundColor: alpha(theme.palette.secondary.main, 0.25),
+                color: "inherit",
+                borderColor: alpha("#fff", 0.3),
+                backdropFilter: "blur(8px)",
+              }}
+            >
+              Get in Touch with GBM SoftTech
+            </Pill>
+          </motion.div>
+
+          <motion.div
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+          >
+            <Typography
+              variant="h2"
+              fontWeight="900"
+              sx={{
+                fontSize: { xs: "2.5rem", md: "4.5rem" },
+                lineHeight: 1.1,
+                letterSpacing: -1.5,
+                textShadow: "0 4px 20px rgba(0,0,0,0.6)",
+              }}
+            >
+              Let’s Build Your <br />
+              Digital Future Together
+            </Typography>
+          </motion.div>
+
+          <motion.div
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
+            <Typography
+              variant="h6"
+              sx={{
+                maxWidth: 700,
+                fontWeight: 500,
+                lineHeight: 1.6,
+                color: alpha("#fff", 0.9),
+                fontSize: { xs: "1rem", md: "1.25rem" },
+                textShadow: "0 2px 10px rgba(0,0,0,0.4)",
+              }}
+            >
+              Have a vision? We have the engineering expertise. Reach out to discuss 
+              your next breakthrough project or learn more about our solutions.
+            </Typography>
+          </motion.div>
+
+          <Stack 
+            direction={{ xs: "column", sm: "row" }} 
+            spacing={2} 
+            sx={{ 
+              mt: 2,
+              opacity: 0,
+              animation: "fadeIn 1s ease-out 0.6s forwards",
+              "@keyframes fadeIn": { from: { opacity: 0 }, to: { opacity: 1 } }
+            }}
+          >
             
-            <Typography 
-              variant="overline" 
-              fontWeight="900" 
-              sx={{ letterSpacing: 3, color: alpha('#fff', 0.8) }}
-            >
-              GBM SOFTTECH HELPS YOU
-            </Typography>
-
-            {/* Animated SuccessFlip Loop */}
-            <Box sx={{ height: { xs: "70px", md: "110px" }, overflow: "hidden" }}>
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={benefits[index].text}
-                  initial={{ y: 50, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -50, opacity: 0 }}
-                  transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-                >
-                  <Typography 
-                    variant="h1" 
-                    sx={{ 
-                      fontWeight: 900,
-                      fontSize: { xs: '2.5rem', md: '5rem' },
-                      color: '#fff',
-                      lineHeight: 1,
-                      textTransform: 'uppercase',
-                      textShadow: '0 4px 12px rgba(0,0,0,0.25)' 
-                    }}
-                  >
-                    {benefits[index].text}
-                  </Typography>
-                </motion.div>
-              </AnimatePresence>
-            </Box>
-
-            <Typography 
-              variant="h3" 
-              sx={{ 
-                fontWeight: 900, 
-                color: alpha('#fff', 0.65), 
-                mt: -1, 
-                textTransform: 'uppercase' 
-              }}
-            >
-              For Your Business
-            </Typography>
-
-            <Typography 
-              variant="body1" 
-              sx={{ 
-                maxWidth: 700, 
-                mx: "auto", 
-                color: alpha('#fff', 0.9), 
-                fontSize: { xs: '1rem', md: '1.25rem' },
-                lineHeight: 1.8,
-                fontWeight: 400
-              }}
-            >
-              Since our establishment, we have been delivering high-quality and sustainable 
-              software solutions tailored for corporate growth and digital excellence.
-            </Typography>
-
-            {/* Action Buttons */}
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={2} justifyContent="center" sx={{ pt: 2 }}>
-              <ActionButton variant="contained">
-                Learn More
-              </ActionButton>
-
-              <ActionButton variant="outlined">
-                Get in Touch
-              </ActionButton>
-            </Stack>
-
           </Stack>
-        </Container>
-      </HeroWrapper>
-    </Box>
+
+        </Stack>
+      </Box>
+    </HeroWrapper>
   );
 };

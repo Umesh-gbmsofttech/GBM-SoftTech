@@ -1,178 +1,166 @@
 // @ts-nocheck
+import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { Box, Typography, Button, Stack, alpha, Container } from "@mui/material";
 import { styled, keyframes } from "@mui/material/styles";
-import { motion } from "framer-motion";
-import heroBg from "../../assets/download.jpg";
+import { motion, AnimatePresence } from "framer-motion";
 
+// --- Assets ---
+import heroBg from "../../assets/download.jpg";
+import homeVideo from "../../assets/ani1.mp4";
+
+// --- Animations ---
 const fadeIn = keyframes`
-  from { opacity: 0; transform: translateY(25px); }
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 `;
 
-const pulse = keyframes`
-  0% { box-shadow: 0 0 0 0 rgba(0, 157, 255, 0.4); transform: scale(1); }
-  70% { box-shadow: 0 0 0 15px rgba(0, 157, 255, 0); transform: scale(1.02); }
-  100% { box-shadow: 0 0 0 0 rgba(0, 157, 255, 0); transform: scale(1); }
-`;
+// --- Styled Components ---
 
-const shimmerAnimation = keyframes`
-  0% { transform: translateX(-150%) skewX(-30deg); }
-  50% { transform: translateX(150%) skewX(-30deg); }
-  100% { transform: translateX(150%) skewX(-30deg); }
-`;
-
-const HeroWrap = styled(Box)(({ theme }) => ({
-  width: "100%",
+const HeroContainer = styled(Box)(({ theme }) => ({
   position: "relative",
-  paddingTop: theme.spacing(5),
-  paddingBottom: theme.spacing(30),
-  minHeight: "750px",
-  display: "flex",
-  alignItems: "center",
+  width: "100%",
+  minHeight: "85vh",
   overflow: "hidden",
-  backgroundColor: "#001e29",
-  color: "#fff",
+  backgroundColor: "#001e29", // Deep base color
   clipPath: "ellipse(150% 100% at 50% 0%)",
 }));
 
-const BackgroundImage = styled(Box)(({ theme }) => ({
+const BackgroundLayer = styled(Box)({
   position: "absolute",
-  right: 0,
-  top: 0,
+  inset: 0,
+  zIndex: 1,
+});
+
+const BackgroundVideo = styled("video")({
   width: "100%",
   height: "100%",
+  objectFit: "cover",
+});
+
+// ✅ SUBTLE VISIBILITY ADJUSTMENT
+const StyledBackgroundImage = styled(Box)({
+  position: "absolute",
+  inset: 0,
+  backgroundImage: `url(${heroBg})`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
   zIndex: 1,
-  "&::before": {
+  "&::after": {
     content: '""',
     position: "absolute",
     inset: 0,
-    background: "linear-gradient(150deg, #001e29 20%, rgba(0, 30, 41, 0.7) 60%, transparent 100%)",
-    zIndex: 2,
+    // Very high alpha (0.85 to 0.95) makes the image only "a little bit" visible
+    background: `linear-gradient(to bottom, ${alpha("#001e29", 0.85)}, ${alpha("#001e29", 0.95)})`,
   },
-  "& img": {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    objectPosition: "68% center",
-    [theme.breakpoints.up("md")]: {
-      objectPosition: "center right",
-    },
-  },
+});
+
+const VideoOverlay = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  inset: 0,
+  zIndex: 2,
+  background: `linear-gradient(135deg, ${alpha("#001e29", 0.5)} 0%, ${alpha("#001e29", 0.8)} 100%)`,
+}));
+
+const ContentWrapper = styled(Box)(({ theme }) => ({
+  position: "relative",
+  zIndex: 10,
+  paddingTop: theme.spacing(15),
+  paddingBottom: theme.spacing(35),
+  display: "flex",
+  alignItems: "center",
+  color: "#fff",
 }));
 
 const PillButton = styled(Button)(({ theme, variant }) => ({
   borderRadius: "50px",
-  padding: "16px 42px",
-  fontWeight: 800,
+  padding: "16px 48px",
+  fontWeight: 900,
   textTransform: "none",
   fontSize: "1.1rem",
-  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
   ...(variant === "contained" && {
     backgroundColor: "#024aa8",
     color: "#fff",
-    animation: `${pulse} 2s infinite cubic-bezier(0.4, 0, 0.6, 1)`,
-    "&:hover": {
-      backgroundColor: theme.palette.primary.main,
-      transform: "translateY(-3px)",
-      boxShadow: `0px 10px 25px ${alpha(theme.palette.primary.main, 0.4)}`,
-      animation: "none",
-    },
+    "&:hover": { backgroundColor: "#0356c3", transform: "translateY(-4px)" },
   }),
   ...(variant === "outlined" && {
     backgroundColor: "#fff",
     color: "#001e29",
     border: "none",
-    "&:hover": {
-      backgroundColor: alpha("#fff", 0.9),
-      transform: "translateY(-3px)",
-    },
+    "&:hover": { backgroundColor: alpha("#fff", 0.9), transform: "translateY(-4px)" },
   }),
 }));
 
-const MotionDiv = motion.create ? motion.create("div") : motion.div;
-
-const ContentBox = styled(Box)(({ theme }) => ({
-  maxWidth: "100%",
-  textAlign: "center",
-  [theme.breakpoints.up("md")]: {
-    maxWidth: "750px",
-    textAlign: "left",
-  },
-}));
-
-const AttentionWrap = styled(MotionDiv)({
+const AttentionWrap = styled(motion.div)({
   position: "relative",
   overflow: "hidden",
-  display: "inline-block",
   borderRadius: "50px",
-  "&::after": {
-    content: '""',
-    position: "absolute",
-    top: 0,
-    width: "100%",
-    height: "100%",
-    background: "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)",
-    transform: "translateX(-150%) skewX(-30deg)",
-    animation: `${shimmerAnimation} 3.5s infinite ease-in-out`,
-    zIndex: 3,
-  },
 });
 
 export const Hero = () => {
+  const [hasPlayed] = useState(() => sessionStorage.getItem("homeVideoPlayed") === "true");
+  const [videoEnded, setVideoEnded] = useState(hasPlayed);
+
+  const handleVideoEnd = () => {
+    setVideoEnded(true);
+    sessionStorage.setItem("homeVideoPlayed", "true");
+  };
+
   return (
-    <div style={{ overflowX: "clip", width: "100%", maxWidth: "100%" }}>
-      <HeroWrap>
-        <BackgroundImage>
-          <img src={heroBg} alt="Corporate Innovation" />
-        </BackgroundImage>
-
-        <Container sx={{ position: "relative", zIndex: 10 }}>
-          <ContentBox>
-            <Typography
-              variant="h1"
-              sx={{
-                fontSize: { xs: "2.8rem", md: "4.2rem" },
-                fontWeight: 800,
-                lineHeight: 1.1,
-                mb: 3,
-                animation: `${fadeIn} 0.8s ease-out forwards`,
-              }}
+    <HeroContainer>
+      
+      <BackgroundLayer>
+        <AnimatePresence mode="wait">
+          {!videoEnded ? (
+            <motion.div
+              key="video"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{ width: '100%', height: '100%', position: 'relative' }}
             >
+              <BackgroundVideo src={homeVideo} autoPlay muted playsInline onEnded={handleVideoEnd} />
+              <VideoOverlay />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="image"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+              style={{ width: '100%', height: '100%', position: 'relative' }}
+            >
+              <StyledBackgroundImage />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </BackgroundLayer>
+
+      <ContentWrapper>
+        <Container>
+          <Stack spacing={4} alignItems={{ xs: "center", md: "flex-start" }} sx={{ textAlign: { xs: "center", md: "left" } }}>
+            <Typography variant="h1" sx={{ fontSize: { xs: "2.8rem", md: "4.8rem" }, fontWeight: 900, lineHeight: 1.1, animation: `${fadeIn} 0.8s ease-out forwards`, textShadow: "0 4px 20px rgba(0,0,0,0.6)" }}>
               Engineered for speed <br />
-              <Box component="span" sx={{ color: alpha("#fff", 0.6) }}>
-                and innovation.
-              </Box>
+              <Box component="span" sx={{ color: alpha("#fff", 0.5) }}>and innovation.</Box>
             </Typography>
 
-            <Typography
-              variant="body1"
-              sx={{
-                fontSize: { xs: "1.1rem", md: "1.25rem" },
-                color: alpha("#fff", 0.7),
-                mb: 6,
-                maxWidth: "580px",
-                fontWeight: 400,
-                lineHeight: 1.1,
-                animation: `${fadeIn} 1s ease-out forwards`,
-                mx: { xs: "auto", md: 0 },
-              }}
-            >
-              We help enterprises and high-growth startups modernize with confidence through
-              high-performance web solutions.
+            <Typography variant="body1" sx={{ fontSize: { xs: "1.1rem", md: "1.3rem" }, color: alpha("#fff", 0.9), maxWidth: "620px", opacity: 0, animation: `${fadeIn} 1s ease-out 0.3s forwards` }}>
+              We help enterprises and high-growth startups modernize with confidence through bespoke solutions.
             </Typography>
 
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={3} justifyContent={{ xs: "center", md: "flex-start" }}>
-              <AttentionWrap whileHover={{ y: -4 }} whileTap={{ scale: 0.97 }}>
-                <PillButton variant="contained">Get Started</PillButton>
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={3}>
+              <AttentionWrap whileHover={{ y: -4 }} whileTap={{ scale: 0.98 }}>
+                <PillButton variant="contained" component={RouterLink} to="/contact">Get Started</PillButton>
               </AttentionWrap>
-
-              <MotionDiv whileHover={{ y: -4 }} whileTap={{ scale: 0.97 }}>
-                <PillButton variant="outlined">Talk to Our Experts</PillButton>
-              </MotionDiv>
+              <AttentionWrap whileHover={{ y: -4 }} whileTap={{ scale: 0.98 }}>
+                <PillButton variant="outlined" component={RouterLink} to="/services">Our Services</PillButton>
+              </AttentionWrap>
             </Stack>
-          </ContentBox>
+          </Stack>
         </Container>
-      </HeroWrap>
-    </div>
+      </ContentWrapper>
+
+    </HeroContainer>
   );
 };

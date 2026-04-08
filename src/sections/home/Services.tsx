@@ -92,9 +92,6 @@ export const Services = () => {
         </Grid>
 
         <Stack direction="row" justifyContent="center" sx={{ mt: 8 }}>
-          <Button variant="contained" sx={{ bgcolor: "#024aa8", color: "#fff", px: 4, py: 1.5, borderRadius: 10, fontWeight: 800, "&:hover": { bgcolor: "#024aa8" } }}>
-            Explore More
-          </Button>
         </Stack>
       </Container>
     </Box>

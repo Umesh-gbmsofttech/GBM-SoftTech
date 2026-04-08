@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
+// If you get an error on __dirname, run: npm install -D @types/node
 export default defineConfig({
   plugins: [react()],
   resolve: {
@@ -16,7 +17,29 @@ export default defineConfig({
       "@theme": path.resolve(__dirname, "./src/theme"),
       "@hooks": path.resolve(__dirname, "./src/hooks"),
       "@utils": path.resolve(__dirname, "./src/utils"),
-      "@three": path.resolve(__dirname, "./src/three")
-    }
-  }
+      "@three": path.resolve(__dirname, "./src/three"),
+    },
+  },
+  build: {
+    chunkSizeWarningLimit: 900,
+    rollupOptions: {
+      output: {
+        // This function splits your heavy node_modules into separate files
+        manualChunks(id: string) {
+          if (id.includes("node_modules")) {
+            if (id.includes("@mui")) {
+              return "vendor-mui";
+            }
+            if (id.includes("framer-motion")) {
+              return "vendor-framer";
+            }
+            if (id.includes("three")) {
+              return "vendor-three";
+            }
+            return "vendor"; // All other libraries
+          }
+        },
+      },
+    },
+  },
 });
