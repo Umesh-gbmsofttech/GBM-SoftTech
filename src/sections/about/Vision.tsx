@@ -67,7 +67,8 @@ export const Vision = () => {
               <Typography
                 variant="h3"
                 sx={{
-                  fontWeight: 900,
+                    color: alpha("#ffffff", 0.9),
+                  fontWeight: 700,
                   mb: 2,
                   lineHeight: 1.08,
                   fontSize: { xs: "2rem", sm: "2.5rem", md: "3.1rem" },
@@ -91,24 +92,7 @@ export const Vision = () => {
               </Typography>
 
               <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ alignItems: { xs: "stretch", sm: "center" } }}>
-                <Button
-                  variant="contained"
-                  sx={{
-                    bgcolor: "#3ca61c",
-                    width: "fit-content",
-                    borderRadius: "50px",
-                    px: 4.5,
-                    py: 1.5,
-                    fontWeight: 800,
-                    color: "#ffffff",
-                    textTransform: "none",
-                    boxShadow: "0 14px 30px rgba(60, 166, 28, 0.28)",
-                    "&:hover": { bgcolor: "#2f8617" },
-                  }}
-                >
-                  Start Your Project
-                </Button>
-
+                
                 <Typography variant="body2" sx={{ color: alpha("#ffffff", 0.72), fontWeight: 600 }}>
                   Strategy, design, and execution aligned in one flow.
                 </Typography>

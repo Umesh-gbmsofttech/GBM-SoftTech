@@ -197,7 +197,7 @@ export const ContactFormSection = () => {
             <Stack spacing={2.5} sx={{ mt: 2 }}>
               <Box sx={{ display: 'flex', gap: 2 }}>
                 <Box sx={{ p: 1.5, borderRadius: '12px', bgcolor: alpha("#00A3E0", 0.1), color: "#00A3E0" }}><EmailOutlined /></Box>
-                <Box><Typography variant="caption" color="text.secondary" fontWeight="700">EMAIL</Typography><Typography variant="body2" fontWeight="600">gbmsofttech@gmail.com</Typography></Box>
+                <Box><Typography variant="caption" color="text.secondary" fontWeight="700">EMAIL</Typography><Typography variant="body2" fontWeight="600">connect@gbmsofttech.com</Typography></Box>
               </Box>
               <Box sx={{ display: 'flex', gap: 2 }}>
                 <Box sx={{ p: 1.5, borderRadius: '12px', bgcolor: alpha("#00A3E0", 0.1), color: "#00A3E0" }}><PhoneOutlined /></Box>

@@ -11,7 +11,6 @@ const SectionWrapper = styled(Box)(({ theme }) => ({
   padding: theme.spacing(15, 0),
   backgroundColor: "#FFFFFF",
   position: "relative",
-  // Subtle decorative background element
   "&::before": {
     content: '""',
     position: "absolute",
@@ -84,7 +83,7 @@ export const FAQSection = () => {
           spacing={{ xs: 6, md: 10 }}
           alignItems="flex-start"
         >
-          {/* Left Column: Sticky Header */}
+          {/* Left Column */}
           <div style={{ flex: 1, position: "sticky", top: "100px" }}>
             <Typography 
               variant="overline" 
@@ -92,22 +91,26 @@ export const FAQSection = () => {
             >
               Support Center
             </Typography>
+
             <Typography variant="h2" fontWeight="900" sx={{ mt: 2, mb: 3, letterSpacing: -1.5 }}>
               Expert Answers to Your Questions
             </Typography>
+
             <Typography variant="body1" color="text.secondary" sx={{ mb: 4, lineHeight: 1.8, fontSize: "1.1rem" }}>
               Can't find what you're looking for? Our strategy team is available for a deep-dive consultation regarding your specific project needs.
             </Typography>
+
             <Button 
               variant="outlined" 
               endIcon={<ChevronRight />}
               sx={{ borderRadius: 99, px: 4, py: 1.5, fontWeight: 700 }}
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} // ✅ ADDED
             >
               Contact Support
             </Button>
           </div>
 
-          {/* Right Column: Premium Accordion */}
+          {/* Right Column */}
           <div style={{ flex: 1.2, width: "100%" }}>
             {faqs.map((item, index) => {
               const isOpen = expanded === index;
@@ -116,7 +119,7 @@ export const FAQSection = () => {
                 <AccordionItem key={index}>
                   <QuestionHeader
                     onClick={() => setExpanded(isOpen ? null : index)}
-                    whileHover={{ x: 10 }} // Sliding hover effect
+                    whileHover={{ x: 10 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
                     <Typography 
@@ -130,7 +133,7 @@ export const FAQSection = () => {
                     >
                       {item.q}
                     </Typography>
-                    
+
                     <IconWrapper active={isOpen}>
                       {isOpen ? <Remove fontSize="small" /> : <Add fontSize="small" />}
                     </IconWrapper>

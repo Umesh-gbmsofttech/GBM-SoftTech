@@ -1,16 +1,22 @@
 // @ts-nocheck
 import React, { useState } from "react";
-import { AppBar, Box, Toolbar, Button, Menu, MenuItem, IconButton } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  Button,
+  Menu,
+  MenuItem,
+  IconButton,
+} from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
 import { Link, useLocation } from "react-router-dom";
-import {
-  LanguageOutlined,
-  KeyboardArrowDownOutlined,
-  Menu as MenuIcon,
-} from "@mui/icons-material";
+import { Menu as MenuIcon } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import { routeConfig } from "@routes/routeConfig";
 import logo from "@assets/gbm-logo1.png";
+
+const MotionButton = motion(Button);
 
 const GlassBar = styled(AppBar)(() => ({
   backgroundColor: alpha("#ffffff", 0.9),
@@ -58,19 +64,13 @@ const LogoImage = styled("img")({
 
 export const Navbar = () => {
   const location = useLocation();
-  const [langAnchor, setLangAnchor] = useState<null | HTMLElement>(null);
-  const [mobileNavAnchor, setMobileNavAnchor] = useState<null | HTMLElement>(null);
-  const [language, setLanguage] = useState("English (US)");
+  const [mobileNavAnchor, setMobileNavAnchor] =
+    useState<null | HTMLElement>(null);
 
-  const handleLangOpen = (event: React.MouseEvent<HTMLButtonElement>) => setLangAnchor(event.currentTarget);
-  const handleMobileNavOpen = (event: React.MouseEvent<HTMLButtonElement>) => setMobileNavAnchor(event.currentTarget);
+  const handleMobileNavOpen = (event: React.MouseEvent<HTMLButtonElement>) =>
+    setMobileNavAnchor(event.currentTarget);
+
   const handleMobileNavClose = () => setMobileNavAnchor(null);
-  const handleLangClose = (label: string) => {
-    if (typeof label === "string") {
-      setLanguage(label);
-    }
-    setLangAnchor(null);
-  };
 
   return (
     <motion.div
@@ -87,20 +87,39 @@ export const Navbar = () => {
             px: { xs: 1.5, sm: 2, md: 3 },
           }}
         >
-          <Box sx={{ flex: { xs: "0 1 auto", md: 1 }, minWidth: 0, display: "flex", alignItems: "center" }}>
+          {/* Logo */}
+          <Box
+            sx={{
+              flex: { xs: "0 1 auto", md: 1 },
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <LogoWrap to="/">
               <LogoImage src={logo} alt="GBM SoftTech Logo" />
             </LogoWrap>
           </Box>
 
-          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 0.5, justifyContent: "center" }}>
+          {/* Desktop Navigation */}
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              gap: 0.5,
+              justifyContent: "center",
+            }}
+          >
             {routeConfig.map((route) => (
-              <NavLink key={route.path} to={route.path} active={location.pathname === route.path}>
+              <NavLink
+                key={route.path}
+                to={route.path}
+                active={location.pathname === route.path}
+              >
                 {route.name}
               </NavLink>
             ))}
           </Box>
 
+          {/* Right Side */}
           <Box
             sx={{
               flex: { xs: "0 0 auto", md: 1 },
@@ -108,9 +127,9 @@ export const Navbar = () => {
               justifyContent: "flex-end",
               alignItems: "center",
               gap: 1,
-              ml: { xs: "auto", md: 0 },
             }}
           >
+            {/* Mobile Menu Button */}
             <IconButton
               onClick={handleMobileNavOpen}
               sx={{
@@ -118,31 +137,68 @@ export const Navbar = () => {
                 color: "#1a1a1a",
                 border: `1px solid ${alpha("#000000", 0.08)}`,
                 borderRadius: "10px",
-                flexShrink: 0,
                 bgcolor: alpha("#ffffff", 0.9),
               }}
-              aria-label="Open navigation menu"
             >
               <MenuIcon />
             </IconButton>
 
-            <Button
-              variant="text"
-              startIcon={<LanguageOutlined sx={{ fontSize: 18 }} />}
-              endIcon={<KeyboardArrowDownOutlined sx={{ fontSize: 16 }} />}
-              onClick={handleLangOpen}
+            {/* 🔥 Animated Contact Button */}
+            <MotionButton
+              component={Link}
+              to="/contact"
+              variant="contained"
+              initial={{ scale: 1 }}
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              whileHover={{
+                scale: 1.08,
+                boxShadow: "0 8px 25px rgba(2,74,168,0.5)",
+              }}
+              whileTap={{ scale: 0.96 }}
               sx={{
                 textTransform: "none",
                 fontWeight: 700,
-                color: "#1a1a1a",
-                borderRadius: "8px",
-                px: 2,
+                borderRadius: "10px",
+                px: 2.5,
+                py: 1,
                 display: { xs: "none", sm: "inline-flex" },
+                background: "linear-gradient(135deg, #024aa8, #0466d6)",
+                boxShadow: "0 4px 14px rgba(2,74,168,0.3)",
+                position: "relative",
+                overflow: "hidden",
+
+                "&::after": {
+                  content: '""',
+                  position: "absolute",
+                  top: 0,
+                  left: "-75%",
+                  width: "50%",
+                  height: "100%",
+                  background:
+                    "linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent)",
+                  transform: "skewX(-20deg)",
+                  animation: "shine 2.5s infinite",
+                },
+
+                "@keyframes shine": {
+                  "0%": { left: "-75%" },
+                  "100%": { left: "125%" },
+                },
+
+                "&:hover": {
+                  background: "linear-gradient(135deg, #023e91, #0353b5)",
+                },
               }}
             >
-              {language}
-            </Button>
+              Start Project
+            </MotionButton>
 
+            {/* Mobile Menu */}
             <Menu
               anchorEl={mobileNavAnchor}
               open={Boolean(mobileNavAnchor)}
@@ -153,7 +209,6 @@ export const Navbar = () => {
                   minWidth: 220,
                   boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
                   borderRadius: "14px",
-                  overflow: "hidden",
                 },
               }}
             >
@@ -164,45 +219,25 @@ export const Navbar = () => {
                   to={route.path}
                   onClick={handleMobileNavClose}
                   selected={location.pathname === route.path}
-                  sx={{
-                    py: 1.5,
-                    fontWeight: 700,
-                    color: location.pathname === route.path ? "primary.main" : "#1a1a1a",
-                  }}
                 >
                   {route.name}
                 </MenuItem>
               ))}
-            </Menu>
 
-            <Menu
-              anchorEl={langAnchor}
-              open={Boolean(langAnchor)}
-              onClose={() => setLangAnchor(null)}
-              PaperProps={{
-                sx: {
-                  mt: 1,
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                  borderRadius: "12px",
-                },
-              }}
-            >
-              <MenuItem onClick={() => handleLangClose("English (US)")} sx={{ fontWeight: 600 }}>
-                English (US)
-              </MenuItem>
-              <MenuItem onClick={() => handleLangClose("Deutsch")} sx={{ fontWeight: 600 }}>
-                Deutsch
-              </MenuItem>
-              <MenuItem onClick={() => handleLangClose("Francais")} sx={{ fontWeight: 600 }}>
-                Francais
-              </MenuItem>
-              <MenuItem onClick={() => handleLangClose("Hindi")} sx={{ fontWeight: 600 }}>
-                Hindi
+              <MenuItem
+                component={Link}
+                to="/contact"
+                onClick={handleMobileNavClose}
+                sx={{ fontWeight: 700, color: "primary.main" }}
+              >
+                Contact Us
               </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
       </GlassBar>
+
+      {/* Spacer */}
       <Toolbar />
     </motion.div>
   );

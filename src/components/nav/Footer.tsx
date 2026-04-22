@@ -15,12 +15,11 @@ import logo from "@assets/gbm-logo1.png";
 // --- STYLED COMPONENTS ---
 
 const FooterWrap = styled(Box)(({ theme }) => ({
-  backgroundColor: "#001e29", // Brand Ink
+  backgroundColor: "#001e29",
   color: "#fff",
   padding: theme.spacing(15, 0, 6),
   position: "relative",
   overflow: "hidden",
-  // Subtle top glow to separate from previous section
   borderTop: `1px solid ${alpha("#fff", 0.05)}`,
   "&::before": {
     content: '""',
@@ -35,15 +34,15 @@ const FooterWrap = styled(Box)(({ theme }) => ({
 
 const FooterLink = styled(RouterLink)(({ theme }) => ({
   textDecoration: "none",
-  color: alpha("#fff", 0.5),
+  color: alpha("#fff", 0.6),
   fontSize: "0.85rem",
   fontWeight: 600,
   letterSpacing: 0.5,
-  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+  transition: "all 0.2s ease",
   display: "inline-block",
   "&:hover": {
     color: theme.palette.primary.main,
-    transform: "translateX(6px)",
+    textDecoration: "underline",
   },
 }));
 
@@ -51,14 +50,13 @@ const SocialButton = styled(IconButton)(({ theme }) => ({
   backgroundColor: alpha("#fff", 0.03),
   color: alpha("#fff", 0.6),
   marginRight: theme.spacing(1.5),
-  borderRadius: "0px", // Match architectural theme
+  borderRadius: "0px",
   border: `1px solid ${alpha("#fff", 0.08)}`,
-  transition: "all 0.4s ease",
+  transition: "all 0.3s ease",
   "&:hover": {
     backgroundColor: theme.palette.primary.main,
     color: "#fff",
     borderColor: theme.palette.primary.main,
-    transform: "translateY(-5px)",
   },
 }));
 
@@ -85,23 +83,20 @@ export const Footer: React.FC = () => {
       <Box sx={{ maxWidth: "1200px", margin: "0 auto", px: { xs: 3, md: 4 } }}>
         <Grid container spacing={8}>
           
-          {/* Column 1: Brand Identity */}
+          {/* Column 1 */}
           <Grid item xs={12} md={4}>
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', gap: 2 }}>
-               <img 
-                 src={logo} 
-                 alt="GBM Logo" 
-                 style={{ height: 35, filter: 'brightness(0) invert(1)' }} 
-               />
-               <Typography variant="h5" sx={{ fontWeight: 1000, letterSpacing: -1 }}>
-                  <Box component="span" sx={{ fontWeight: 1000, color: alpha("#fff", 0.5) }}>SOFTTECH</Box>
+               
+               <Typography variant="h5" sx={{ fontWeight: 1000, letterSpacing: 3 }}>
+                  <Box component="span" sx={{ color: alpha("#fff", 0.5) }}>GBM SoftTech</Box>
                </Typography>
             </Box>
-            <Typography variant="body2" sx={{ mb: 4, color: alpha("#fff", 0.5), lineHeight: 2, maxWidth: 320 }}>
-              Specializing in the digital transformation of MGAs and enterprises. We engineer 
-              high-performance ecosystems that bridge the gap between legacy stability 
-              and modern innovation.
+
+            <Typography variant="body2" sx={{ mb: 4, color: alpha("#fff", 0.6), lineHeight: 1.8, maxWidth: 320 }}>
+              We deliver reliable and scalable digital solutions for enterprises and growing businesses. 
+              Our focus is on building secure, high-performance systems that support long-term success.
             </Typography>
+
             <Stack direction="row">
               <SocialButton size="small"><LinkedIn fontSize="small" /></SocialButton>
               <SocialButton size="small"><Twitter fontSize="small" /></SocialButton>
@@ -109,47 +104,43 @@ export const Footer: React.FC = () => {
             </Stack>
           </Grid>
 
-          {/* Column 2: Global Reach */}
+          {/* Column 2 */}
           <Grid item xs={12} sm={6} md={2.5}>
-            
             <Stack spacing={2.5}>
-              {[
-                { city: "Pune", region: "Headquarters" },
-               
-              ].map((loc, i) => (
-                <Box key={i}>
-                  <Typography variant="body2" sx={{ fontWeight: 700, color: "#fff", display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    <LocationOnOutlined sx={{ fontSize: '1.1rem', color: alpha("#fff", 0.2) }} /> {loc.city}
-                  </Typography>
-                  <Typography variant="caption" sx={{ color: alpha("#fff", 0.3), ml: 4 }}>
-                    {loc.region}
-                  </Typography>
-                </Box>
-              ))}
+              <Box>
+                <Typography variant="body2" sx={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                  <LocationOnOutlined sx={{ fontSize: '1.1rem', color: alpha("#fff", 0.3) }} /> Pune
+                </Typography>
+                <Typography variant="caption" sx={{ color: alpha("#fff", 0.4), ml: 4 }}>
+                  Headquarters
+                </Typography>
+              </Box>
             </Stack>
           </Grid>
 
-          {/* Column 3: Navigation */}
+          {/* Column 3 */}
           <Grid item xs={12} sm={6} md={2}>
             <Typography variant="overline" sx={{ fontWeight: 900, mb: 4, display: 'block', color: 'primary.main', letterSpacing: 3 }}>
-              EXPLORE
+              NAVIGATION
             </Typography>
             <Stack spacing={2}>
-              <FooterLink to="/about">About Agency</FooterLink>
-              <FooterLink to="/services">Capabilities</FooterLink>
-              <FooterLink to="/careers">Join the Team</FooterLink>
-              <FooterLink to="/contact">Get in Touch</FooterLink>
+              <FooterLink to="/home">Home</FooterLink>
+              <FooterLink to="/about">About Us</FooterLink>
+              <FooterLink to="/services">Services</FooterLink>
+              <FooterLink to="/careers">Careers</FooterLink>
+              <FooterLink to="/contact">Contact Us</FooterLink>
             </Stack>
           </Grid>
 
-          {/* Column 4: Newsletter */}
+          {/* Column 4 */}
           <Grid item xs={12} md={3.5}>
-            <Typography variant="h6" sx={{ fontWeight: 900, mb: 2, letterSpacing: -0.5 }}>
-              Insights for Innovators
+            <Typography variant="h6" sx={{ fontWeight: 900, mb: 2 }}>
+              Stay Updated
             </Typography>
-            <Typography variant="body2" sx={{ mb: 3, color: alpha("#fff", 0.4), lineHeight: 1.6 }}>
-              Weekly deep-dives into React architecture and enterprise scaling strategies.
+            <Typography variant="body2" sx={{ mb: 3, color: alpha("#fff", 0.5) }}>
+              Subscribe to receive updates, insights, and company news.
             </Typography>
+
             <Stack direction="row" spacing={1}>
               <NewsletterField 
                 fullWidth 
@@ -174,7 +165,7 @@ export const Footer: React.FC = () => {
 
         <Divider sx={{ my: 10, borderColor: alpha("#fff", 0.05) }} />
 
-        {/* Bottom Bar */}
+        {/* Bottom */}
         <Box sx={{ 
           display: 'flex', 
           flexDirection: { xs: 'column', md: 'row' }, 
@@ -182,15 +173,13 @@ export const Footer: React.FC = () => {
           alignItems: { xs: 'flex-start', md: 'center' },
           gap: 3
         }}>
-          <Typography variant="caption" sx={{ color: alpha("#fff", 0.3), fontWeight: 600, letterSpacing: 1 }}>
-            © {currentYear} GBM SOFTTECH. ALL RIGHTS RESERVED. 
-            <Box component="span" sx={{ ml: 2, color: alpha("#fff", 0.1) }}>|</Box>
-            <Box component="span" sx={{ ml: 2, opacity: 0.6 }}>ENGINEERED FOR SCALE</Box>
+          <Typography variant="caption" sx={{ color: alpha("#fff", 0.4), fontWeight: 600 }}>
+            © {currentYear} GBM SOFTTECH. All rights reserved.
           </Typography>
           
           <Stack direction="row" spacing={4}>
-            <FooterLink to="/privacy" sx={{ fontSize: '0.7rem', opacity: 0.5 }}>PRIVACY</FooterLink>
-            <FooterLink to="/terms" sx={{ fontSize: '0.7rem', opacity: 0.5 }}>TERMS</FooterLink>
+            <FooterLink to="/privacy" sx={{ fontSize: '0.7rem' }}>Privacy Policy</FooterLink>
+            <FooterLink to="/terms" sx={{ fontSize: '0.7rem' }}>Terms of Service</FooterLink>
           </Stack>
         </Box>
       </Box>

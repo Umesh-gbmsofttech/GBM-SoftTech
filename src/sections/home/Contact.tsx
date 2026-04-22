@@ -141,8 +141,8 @@ export const Contact: React.FC = () => {
 
                 <Stack spacing={3}>
                   {[
-                    { icon: <PhoneInTalk />, val: '+91 98765 43210' },
-                    { icon: <MailOutline />, val: 'hello@gbmsofttech.com' },
+                    { icon: <PhoneInTalk />, val: '+91 87660 78570' },
+                    { icon: <MailOutline />, val: 'connect@gbmsofttech.com' },
                     { icon: <LocationOnOutlined />, val: 'Pune, India' }
                   ].map((item, i) => (
                     <Stack key={i} direction="row" spacing={2} alignItems="center">
